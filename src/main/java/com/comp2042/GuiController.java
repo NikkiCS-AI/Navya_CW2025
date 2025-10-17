@@ -25,30 +25,20 @@ import java.util.ResourceBundle;
 public class GuiController implements Initializable {
 
     private static final int BRICK_SIZE = 20;
-
+    private final BooleanProperty isPause = new SimpleBooleanProperty();
+    private final BooleanProperty isGameOver = new SimpleBooleanProperty();
     @FXML
     private GridPane gamePanel;
-
     @FXML
     private Group groupNotification;
-
     @FXML
     private GridPane brickPanel;
-
     @FXML
     private GameOverPanel gameOverPanel;
-
     private Rectangle[][] displayMatrix;
-
     private InputEventListener eventListener;
-
     private Rectangle[][] rectangles;
-
     private Timeline timeLine;
-
-    private final BooleanProperty isPause = new SimpleBooleanProperty();
-
-    private final BooleanProperty isGameOver = new SimpleBooleanProperty();
     private IntegerProperty integerProperty;
 
     @Override

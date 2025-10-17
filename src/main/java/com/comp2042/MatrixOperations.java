@@ -10,7 +10,7 @@ public class MatrixOperations {
 
 
     //We don't want to instantiate this utility class
-    private MatrixOperations(){
+    private MatrixOperations() {
 
     }
 
@@ -88,7 +88,7 @@ public class MatrixOperations {
         return new ClearRow(clearedRows.size(), tmp, scoreBonus);
     }
 
-    public static List<int[][]> deepCopyList(List<int[][]> list){
+    public static List<int[][]> deepCopyList(List<int[][]> list) {
         return list.stream().map(MatrixOperations::copy).collect(Collectors.toList());
     }
 

@@ -11,7 +11,7 @@ public final class Score {
         return score;
     }
 
-    public void add(int i){
+    public void add(int i) {
         score.setValue(score.getValue() + i);
     }
 

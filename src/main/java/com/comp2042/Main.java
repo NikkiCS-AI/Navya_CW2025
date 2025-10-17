@@ -11,6 +11,10 @@ import java.util.ResourceBundle;
 
 public class Main extends Application {
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -25,10 +29,5 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         new GameController(c);
-    }
-
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

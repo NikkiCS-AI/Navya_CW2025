@@ -12,9 +12,9 @@ public class SimpleBoard implements Board {
     private final int height;
     private final BrickGenerator brickGenerator;
     private final BrickRotator brickRotator;
+    private final Score score;
     private int[][] currentGameMatrix;
     private Point currentOffset;
-    private final Score score;
 
     public SimpleBoard(int width, int height) {
         this.width = width;
