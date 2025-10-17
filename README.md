@@ -16,4 +16,7 @@ The game should launch in a JavaFX window.
 ## •Features Not Implemented: 
 ## •New Java Classes: 
 ## •Modified Java Classes:
+  1. Refactoring:
+     a) Used intellij's Inspect code and Code clean up tools to identify issues such as unused variables, imports, or methods, code style violations, duplicated code. possible bugs or missing and visibility problems such as missing @override.
+  2. 
 ## •Unexpected Problems:
