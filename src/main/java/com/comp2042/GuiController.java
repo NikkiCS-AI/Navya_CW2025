@@ -5,7 +5,6 @@ import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -50,6 +49,7 @@ public class GuiController implements Initializable {
     private final BooleanProperty isPause = new SimpleBooleanProperty();
 
     private final BooleanProperty isGameOver = new SimpleBooleanProperty();
+    private IntegerProperty integerProperty;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -78,7 +78,7 @@ public class GuiController implements Initializable {
                     }
                 }
                 if (keyEvent.getCode() == KeyCode.N) {
-                    newGame(null);
+                    newGame();
                 }
             }
         });
@@ -201,6 +201,7 @@ public class GuiController implements Initializable {
     }
 
     public void bindScore(IntegerProperty integerProperty) {
+        this.integerProperty = integerProperty;
     }
 
     public void gameOver() {
@@ -209,7 +210,7 @@ public class GuiController implements Initializable {
         isGameOver.setValue(Boolean.TRUE);
     }
 
-    public void newGame(ActionEvent actionEvent) {
+    public void newGame() {
         timeLine.stop();
         gameOverPanel.setVisible(false);
         eventListener.createNewGame();
@@ -219,7 +220,7 @@ public class GuiController implements Initializable {
         isGameOver.setValue(Boolean.FALSE);
     }
 
-    public void pauseGame(ActionEvent actionEvent) {
+    public void pauseGame() {
         gamePanel.requestFocus();
     }
 }

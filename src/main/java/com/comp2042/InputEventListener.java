@@ -4,6 +4,12 @@ public interface InputEventListener {
 
     DownData onDownEvent(MoveEvent event);
 
+    ViewData onLeftEvent();
+
+    ViewData onRightEvent();
+
+    ViewData onRotateEvent();
+
     ViewData onLeftEvent(MoveEvent event);
 
     ViewData onRightEvent(MoveEvent event);

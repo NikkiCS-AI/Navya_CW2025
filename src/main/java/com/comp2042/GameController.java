@@ -2,7 +2,7 @@ package com.comp2042;
 
 public class GameController implements InputEventListener {
 
-    private Board board = new SimpleBoard(25, 10);
+    private final Board board = new SimpleBoard(25, 10);
 
     private final GuiController viewGuiController;
 
@@ -36,6 +36,21 @@ public class GameController implements InputEventListener {
             }
         }
         return new DownData(clearRow, board.getViewData());
+    }
+
+    @Override
+    public ViewData onLeftEvent() {
+        return null;
+    }
+
+    @Override
+    public ViewData onRightEvent() {
+        return null;
+    }
+
+    @Override
+    public ViewData onRotateEvent() {
+        return null;
     }
 
     @Override
