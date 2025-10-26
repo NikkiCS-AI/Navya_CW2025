@@ -5,6 +5,9 @@ public final class DownData {
     private final ViewData viewData;
 
     public DownData(ClearRow clearRow, ViewData viewData) {
+        if (clearRow == null) {
+            throw new NullPointerException("clearRow cannot be null");
+        }
         this.clearRow = clearRow;
         this.viewData = viewData;
     }
