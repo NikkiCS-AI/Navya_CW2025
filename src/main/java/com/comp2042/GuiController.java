@@ -24,38 +24,39 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class GuiController implements Initializable {
-
-    private static final int BRICK_SIZE = 20;
-
-    @FXML
-    private GridPane gamePanel;
+    private static final int BRICK_SIZE = 20; // Size of each brick in pixels
 
     @FXML
-    private Group groupNotification;
+    private GridPane gamePanel; // The main game grid
 
     @FXML
-    private GridPane brickPanel;
+    private Group groupNotification; // Group to hold notifications
 
     @FXML
-    private GameOverPanel gameOverPanel;
+    private GridPane brickPanel; // Panel to show the current brick
 
-    private Rectangle[][] displayMatrix;
+    @FXML
+    private GameOverPanel gameOverPanel; // Panel to show game over message
+
+    private Rectangle[][] displayMatrix; // Matrix to display the game state
 
     private InputEventListener eventListener;
 
-    private Rectangle[][] rectangles;
+    private Rectangle[][] rectangles; // Rectangles for the current brick
 
-    private Timeline timeLine;
+    private Timeline timeLine; // Timeline for game loop
 
-    private final BooleanProperty isPause = new SimpleBooleanProperty();
+    private final BooleanProperty isPause = new SimpleBooleanProperty(); // Property to track if the game is paused
 
-    private final BooleanProperty isGameOver = new SimpleBooleanProperty();
+    private final BooleanProperty isGameOver = new SimpleBooleanProperty(); // Property to track if the game is over
 
     @Override
+    // initalises url and resources, prepares game interface and inputs from keyboard
     public void initialize(URL location, ResourceBundle resources) {
         Font.loadFont(getClass().getClassLoader().getResource("digital.ttf").toExternalForm(), 38);
         gamePanel.setFocusTraversable(true);
-        gamePanel.requestFocus();
+        gamePanel.requestFocus(); // Request focus to capture key events
+        // Set up key event handler
         gamePanel.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
@@ -89,7 +90,7 @@ public class GuiController implements Initializable {
         reflection.setTopOpacity(0.9);
         reflection.setTopOffset(-12);
     }
-
+//creates the tetris game board and the falling bricks
     public void initGameView(int[][] boardMatrix, ViewData brick) {
         displayMatrix = new Rectangle[boardMatrix.length][boardMatrix[0].length];
         for (int i = 2; i < boardMatrix.length; i++) {
@@ -121,7 +122,7 @@ public class GuiController implements Initializable {
         timeLine.setCycleCount(Timeline.INDEFINITE);
         timeLine.play();
     }
-
+// assigns colors to the different tetris bricks
     private Paint getFillColor(int i) {
         Paint returnPaint;
         switch (i) {
@@ -156,7 +157,7 @@ public class GuiController implements Initializable {
         return returnPaint;
     }
 
-
+// updates the brick's position on the game board
     private void refreshBrick(ViewData brick) {
         if (isPause.getValue() == Boolean.FALSE) {
             brickPanel.setLayoutX(gamePanel.getLayoutX() + brick.getxPosition() * brickPanel.getVgap() + brick.getxPosition() * BRICK_SIZE);
@@ -168,7 +169,7 @@ public class GuiController implements Initializable {
             }
         }
     }
-
+// updates the part of the board that holds the stationary bricks
     public void refreshGameBackground(int[][] board) {
         for (int i = 2; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
@@ -176,13 +177,14 @@ public class GuiController implements Initializable {
             }
         }
     }
-
+// sets the color and shape of each brick on the board
     private void setRectangleData(int color, Rectangle rectangle) {
         rectangle.setFill(getFillColor(color));
         rectangle.setArcHeight(9);
         rectangle.setArcWidth(9);
     }
 
+// moves bricks down, checks for cleared rows and updates score notifications
     private void moveDown(MoveEvent event) {
         if (isPause.getValue() == Boolean.FALSE) {
             DownData downData = eventListener.onDownEvent(event);
@@ -196,19 +198,24 @@ public class GuiController implements Initializable {
         gamePanel.requestFocus();
     }
 
+    //communicates with game controller
     public void setEventListener(InputEventListener eventListener) {
         this.eventListener = eventListener;
     }
 
+    // binds a score property to the game controller's score so it auto updates on the screen
     public void bindScore(IntegerProperty integerProperty) {
+
     }
 
+    //stops timeline and shows game over panel
     public void gameOver() {
         timeLine.stop();
         gameOverPanel.setVisible(true);
         isGameOver.setValue(Boolean.TRUE);
     }
 
+    //resets the games and starts again
     public void newGame(ActionEvent actionEvent) {
         timeLine.stop();
         gameOverPanel.setVisible(false);
@@ -219,7 +226,15 @@ public class GuiController implements Initializable {
         isGameOver.setValue(Boolean.FALSE);
     }
 
+    //stops the timeline to pause the game
     public void pauseGame(ActionEvent actionEvent) {
+        if (isPause.getValue() == Boolean.FALSE) {
+            timeLine.stop();
+            isPause.setValue(Boolean.TRUE);
+        } else {
+            timeLine.play();
+            isPause.setValue(Boolean.FALSE);
+        }
         gamePanel.requestFocus();
     }
 }

@@ -17,9 +17,7 @@ public class SimpleBoard implements Board {
     private final Score score;
 
     public SimpleBoard(int width, int height) {
-        if (width <= 0 || height <= 0) {
-            throw new IllegalArgumentException("Width and Height must be positive integers.");
-        }
+
         this.width = width;
         this.height = height;
         currentGameMatrix = new int[width][height];

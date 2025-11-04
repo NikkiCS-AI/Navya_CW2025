@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 public class Main extends Application {
 
     @Override
+    //loads fxml layout, initalises gui and game controllers, and starts the game
     public void start(Stage primaryStage) throws Exception {
 
         URL location = getClass().getClassLoader().getResource("gameLayout.fxml");
