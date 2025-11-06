@@ -6,6 +6,7 @@ public class GameController implements InputEventListener {
 
     private final GuiController viewGuiController;
 
+    //connects the game logic with the GUI
     public GameController(GuiController c) {
         viewGuiController = c;
         board.createNewBrick();
@@ -14,6 +15,7 @@ public class GameController implements InputEventListener {
         viewGuiController.bindScore(board.getScore().scoreProperty());
     }
 
+    //hanfles the brick falling down
     @Override
     public DownData onDownEvent(MoveEvent event) {
         boolean canMove = board.moveBrickDown();
@@ -38,18 +40,21 @@ public class GameController implements InputEventListener {
         return new DownData(clearRow, board.getViewData());
     }
 
+    //moves brick to left
     @Override
     public ViewData onLeftEvent(MoveEvent event) {
         board.moveBrickLeft();
         return board.getViewData();
     }
 
+    //moves brick to right
     @Override
     public ViewData onRightEvent(MoveEvent event) {
         board.moveBrickRight();
         return board.getViewData();
     }
 
+    //rotates brick
     @Override
     public ViewData onRotateEvent(MoveEvent event) {
         board.rotateLeftBrick();
@@ -57,6 +62,7 @@ public class GameController implements InputEventListener {
     }
 
 
+    //starts a new game
     @Override
     public void createNewGame() {
         board.newGame();

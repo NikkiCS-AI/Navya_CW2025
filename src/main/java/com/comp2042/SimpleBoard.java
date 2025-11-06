@@ -6,6 +6,7 @@ import com.comp2042.logic.bricks.RandomBrickGenerator;
 
 import java.awt.*;
 
+//keeps track of cells filled, current brick position, brick generator and rotator, score and movements
 public class SimpleBoard implements Board {
 
     private final int width;
@@ -16,6 +17,7 @@ public class SimpleBoard implements Board {
     private Point currentOffset;
     private final Score score;
 
+    //sets up tetris board
     public SimpleBoard(int width, int height) {
 
         this.width = width;
@@ -27,6 +29,7 @@ public class SimpleBoard implements Board {
 
     }
 
+    // moves brick down one row if no conflict
     @Override
     public boolean moveBrickDown() {
         int[][] currentMatrix = MatrixOperations.copy(currentGameMatrix);
@@ -41,7 +44,7 @@ public class SimpleBoard implements Board {
         }
     }
 
-
+// moves brick one cell left
     @Override
     public boolean moveBrickLeft() {
         int[][] currentMatrix = MatrixOperations.copy(currentGameMatrix);
@@ -56,6 +59,7 @@ public class SimpleBoard implements Board {
         }
     }
 
+    // moves brick one cell right
     @Override
     public boolean moveBrickRight() {
         int[][] currentMatrix = MatrixOperations.copy(currentGameMatrix);
@@ -70,6 +74,7 @@ public class SimpleBoard implements Board {
         }
     }
 
+    //rotates current brick
     @Override
     public boolean rotateLeftBrick() {
         int[][] currentMatrix = MatrixOperations.copy(currentGameMatrix);
@@ -83,6 +88,7 @@ public class SimpleBoard implements Board {
         }
     }
 
+    //creates new brick at top of board
     @Override
     public boolean createNewBrick() {
         Brick currentBrick = brickGenerator.getBrick();
@@ -91,21 +97,25 @@ public class SimpleBoard implements Board {
         return MatrixOperations.intersect(currentGameMatrix, brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY());
     }
 
+    //returns the 2d array of the placed blocks
     @Override
     public int[][] getBoardMatrix() {
         return currentGameMatrix;
     }
 
+    //visual data for gui to  display
     @Override
     public ViewData getViewData() {
         return new ViewData(brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY(), brickGenerator.getNextBrick().getShapeMatrix().get(0));
     }
 
+    //merges current brick that landed to background matrix so it doesn't move
     @Override
     public void mergeBrickToBackground() {
         currentGameMatrix = MatrixOperations.merge(currentGameMatrix, brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY());
     }
 
+    // checks for completed rows and removes them
     @Override
     public ClearRow clearRows() {
         ClearRow clearRow = MatrixOperations.checkRemoving(currentGameMatrix);
@@ -114,12 +124,13 @@ public class SimpleBoard implements Board {
 
     }
 
+    //returns score object
     @Override
     public Score getScore() {
         return score;
     }
 
-
+    //resets for new game
     @Override
     public void newGame() {
         currentGameMatrix = new int[width][height];

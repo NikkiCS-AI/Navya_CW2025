@@ -1,5 +1,6 @@
 package com.comp2042;
 
+import javafx.beans.property.IntegerProperty;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 

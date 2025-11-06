@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.effect.Reflection;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -50,12 +51,17 @@ public class GuiController implements Initializable {
 
     private final BooleanProperty isGameOver = new SimpleBooleanProperty(); // Property to track if the game is over
 
+   @FXML
+   private Label scoreLabel;
+
     @Override
     // initalises url and resources, prepares game interface and inputs from keyboard
     public void initialize(URL location, ResourceBundle resources) {
         Font.loadFont(getClass().getClassLoader().getResource("digital.ttf").toExternalForm(), 38);
         gamePanel.setFocusTraversable(true);
         gamePanel.requestFocus(); // Request focus to capture key events
+        System.out.println("GuiController initialized!");
+        System.out.println("Score label is: " + scoreLabel);
         // Set up key event handler
         gamePanel.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -81,6 +87,7 @@ public class GuiController implements Initializable {
                 if (keyEvent.getCode() == KeyCode.N) {
                     newGame(null);
                 }
+
             }
         });
         gameOverPanel.setVisible(false);
@@ -204,8 +211,15 @@ public class GuiController implements Initializable {
     }
 
     // binds a score property to the game controller's score so it auto updates on the screen
-    public void bindScore(IntegerProperty integerProperty) {
-
+    public void bindScore(IntegerProperty scoreProperty) {
+        System.out.println("Binding score property...");
+        System.out.println("ScoreLabel = " + scoreLabel);
+        if (scoreLabel != null) {
+            scoreLabel.textProperty().bind(scoreProperty.asString("Score: %d"));
+            System.out.println("Score bound successfully!");
+        } else {
+            System.out.println("Score label is null in bindScore()");
+        }
     }
 
     //stops timeline and shows game over panel

@@ -2,6 +2,7 @@ package com.comp2042;
 
 public interface InputEventListener {
 
+    // when the brick moves down, left, right or rotates, these methods are called
     DownData onDownEvent(MoveEvent event); //moves down
 
     ViewData onLeftEvent(MoveEvent event); //moves left

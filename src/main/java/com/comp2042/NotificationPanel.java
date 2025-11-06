@@ -16,6 +16,7 @@ import javafx.util.Duration;
 
 public class NotificationPanel extends BorderPane {
 
+    // Constructor to create a notification panel with specified text
     public NotificationPanel(String text) {
         setMinHeight(200);
         setMinWidth(220);
@@ -28,6 +29,7 @@ public class NotificationPanel extends BorderPane {
 
     }
 
+    // Method to show the score with fade and translate animations
     public void showScore(ObservableList<Node> list) {
         FadeTransition ft = new FadeTransition(Duration.millis(2000), this);
         TranslateTransition tt = new TranslateTransition(Duration.millis(2500), this);
