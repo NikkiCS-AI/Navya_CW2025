@@ -2,6 +2,7 @@ package com.comp2042;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -58,6 +59,8 @@ public class GuiController implements Initializable {
     @FXML
     private Button pauseGame;
 
+    private AudioManager audioManager = new AudioManager();
+
     @Override
     // initalises url and resources, prepares game interface and inputs from keyboard
     public void initialize(URL location, ResourceBundle resources) {
@@ -98,6 +101,8 @@ public class GuiController implements Initializable {
         reflection.setFraction(0.8);
         reflection.setTopOpacity(0.9);
         reflection.setTopOffset(-12);
+
+        Platform.runLater(() -> audioManager.playBackgroundMusic());
     }
 //creates the tetris game board and the falling bricks
     public void initGameView(int[][] boardMatrix, ViewData brick) {
@@ -201,6 +206,7 @@ public class GuiController implements Initializable {
                 NotificationPanel notificationPanel = new NotificationPanel("+" + downData.getClearRow().getScoreBonus());
                 groupNotification.getChildren().add(notificationPanel);
                 notificationPanel.showScore(groupNotification.getChildren());
+                audioManager.playLineClearSound();
             }
             refreshBrick(downData.getViewData());
         }
@@ -216,9 +222,6 @@ public class GuiController implements Initializable {
     public void bindScore(IntegerProperty scoreProperty) {
         if (bindScore != null) {
             bindScore.textProperty().bind(scoreProperty.asString("Score: %d"));
-            System.out.println("Score bound successfully!");
-        } else {
-            System.out.println("Score label is null in bindScore()");
         }
     }
 
@@ -227,6 +230,8 @@ public class GuiController implements Initializable {
         timeLine.stop();
         gameOverPanel.setVisible(true);
         isGameOver.setValue(Boolean.TRUE);
+        audioManager.stopBackgroundMusic();
+        audioManager.playGameOverSound();
     }
 
     //resets the games and starts again
@@ -238,6 +243,7 @@ public class GuiController implements Initializable {
         timeLine.play();
         isPause.setValue(Boolean.FALSE);
         isGameOver.setValue(Boolean.FALSE);
+        Platform.runLater(() -> audioManager.playBackgroundMusic());
     }
 
     //stops the timeline to pause the game
@@ -245,10 +251,12 @@ public class GuiController implements Initializable {
         if (isPause.getValue() == Boolean.FALSE) {
             timeLine.stop();
             isPause.setValue(Boolean.TRUE);
+            audioManager.stopBackgroundMusic();
             pauseGame.setText("Resume");
         } else {
             timeLine.play();
             isPause.setValue(Boolean.FALSE);
+            audioManager.playBackgroundMusic();
             pauseGame.setText("Pause");
         }
         gamePanel.requestFocus();
