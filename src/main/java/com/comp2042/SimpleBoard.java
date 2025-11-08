@@ -17,6 +17,7 @@ public class SimpleBoard implements Board {
     private Point currentOffset;
     private final Score score;
 
+
     //sets up tetris board
     public SimpleBoard(int width, int height) {
 

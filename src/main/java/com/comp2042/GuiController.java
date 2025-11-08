@@ -20,6 +20,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
+import javafx.scene.control.Button;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -52,7 +53,10 @@ public class GuiController implements Initializable {
     private final BooleanProperty isGameOver = new SimpleBooleanProperty(); // Property to track if the game is over
 
    @FXML
-   private Label scoreLabel;
+   private Label bindScore;
+
+    @FXML
+    private Button pauseGame;
 
     @Override
     // initalises url and resources, prepares game interface and inputs from keyboard
@@ -60,8 +64,6 @@ public class GuiController implements Initializable {
         Font.loadFont(getClass().getClassLoader().getResource("digital.ttf").toExternalForm(), 38);
         gamePanel.setFocusTraversable(true);
         gamePanel.requestFocus(); // Request focus to capture key events
-        System.out.println("GuiController initialized!");
-        System.out.println("Score label is: " + scoreLabel);
         // Set up key event handler
         gamePanel.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -212,10 +214,8 @@ public class GuiController implements Initializable {
 
     // binds a score property to the game controller's score so it auto updates on the screen
     public void bindScore(IntegerProperty scoreProperty) {
-        System.out.println("Binding score property...");
-        System.out.println("ScoreLabel = " + scoreLabel);
-        if (scoreLabel != null) {
-            scoreLabel.textProperty().bind(scoreProperty.asString("Score: %d"));
+        if (bindScore != null) {
+            bindScore.textProperty().bind(scoreProperty.asString("Score: %d"));
             System.out.println("Score bound successfully!");
         } else {
             System.out.println("Score label is null in bindScore()");
@@ -245,9 +245,11 @@ public class GuiController implements Initializable {
         if (isPause.getValue() == Boolean.FALSE) {
             timeLine.stop();
             isPause.setValue(Boolean.TRUE);
+            pauseGame.setText("Resume");
         } else {
             timeLine.play();
             isPause.setValue(Boolean.FALSE);
+            pauseGame.setText("Pause");
         }
         gamePanel.requestFocus();
     }
