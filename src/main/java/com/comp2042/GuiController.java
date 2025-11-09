@@ -59,6 +59,10 @@ public class GuiController implements Initializable {
     @FXML
     private Button pauseGame;
 
+    @FXML
+    private GridPane previewPanel;
+
+
     private AudioManager audioManager = new AudioManager();
 
     @Override
@@ -116,6 +120,9 @@ public class GuiController implements Initializable {
             }
         }
 
+
+
+
         rectangles = new Rectangle[brick.getBrickData().length][brick.getBrickData()[0].length];
         for (int i = 0; i < brick.getBrickData().length; i++) {
             for (int j = 0; j < brick.getBrickData()[i].length; j++) {
@@ -136,7 +143,23 @@ public class GuiController implements Initializable {
         timeLine.setCycleCount(Timeline.INDEFINITE);
         timeLine.play();
     }
-// assigns colors to the different tetris bricks
+
+    public void updateNextBrick(ViewData nextBrick) {
+        if (previewPanel == null) return;
+        previewPanel.getChildren().clear();
+
+        for (int i = 0; i < nextBrick.getBrickData().length; i++) {
+            for (int j = 0; j < nextBrick.getBrickData()[i].length; j++) {
+                Rectangle rect = new Rectangle(15, 15);
+                rect.setFill(getFillColor(nextBrick.getBrickData()[i][j]));
+                rect.setArcHeight(6);
+                rect.setArcWidth(6);
+                previewPanel.add(rect, j, i);
+            }
+        }
+    }
+
+    // assigns colors to the different tetris bricks
     private Paint getFillColor(int i) {
         Paint returnPaint;
         switch (i) {

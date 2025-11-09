@@ -18,6 +18,10 @@
     <Button fx:id="pauseGame" layoutX="10" layoutY="10" onAction="#pauseGame" text="Pause"/>
 
     <Label fx:id="bindScore" layoutX="10" layoutY="40" text="Score: " style="-fx-font-size: 24px; -fx-text-fill: white"/>
+
+    <Label fx:id="nextLabel" layoutX="235" layoutY="15" text="Next:" style="-fx-font-size: 18px; -fx-text-fill: white"/>
+    <GridPane fx:id="previewPanel" layoutX="235" layoutY="25" hgap="1" vgap="1"/>
+
     <Group fx:id="groupNotification" layoutX="14" layoutY="203">
         <VBox alignment="CENTER">
             <GameOverPanel fx:id="gameOverPanel"/>
