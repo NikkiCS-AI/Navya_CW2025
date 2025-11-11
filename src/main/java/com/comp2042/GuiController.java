@@ -107,6 +107,8 @@ public class GuiController implements Initializable {
         reflection.setTopOffset(-12);
 
         Platform.runLater(() -> audioManager.playBackgroundMusic());
+        bindScore.getStyleClass().add("scoreClass");
+
     }
 //creates the tetris game board and the falling bricks
     public void initGameView(int[][] boardMatrix, ViewData brick) {
