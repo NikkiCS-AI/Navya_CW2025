@@ -17,7 +17,7 @@
 
     <Button fx:id="pauseGame" layoutX="10" layoutY="10" onAction="#pauseGame" text="Pause"/>
 
-    <Label fx:id="bindScore" layoutX="10" layoutY="40" text="Score: "  styleClass="scoreClass" />
+    <Label fx:id="bindScore" layoutX="230" layoutY="150" text="Score: "  styleClass="scoreClass" />
 
     <Label fx:id="nextLabel" layoutX="233" layoutY="10" text="Next: " styleClass="nextBrickLabel"/>
     <GridPane fx:id="previewPanel" layoutX="232" layoutY="60" hgap="1" vgap="1" styleClass="nextBrick"/>

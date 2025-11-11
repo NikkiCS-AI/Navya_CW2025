@@ -32,6 +32,9 @@ public class GuiController implements Initializable {
     @FXML
     private GridPane gamePanel; // The main game grid
 
+
+
+
     @FXML
     private Group groupNotification; // Group to hold notifications
 
