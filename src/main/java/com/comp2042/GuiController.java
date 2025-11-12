@@ -30,10 +30,10 @@ public class GuiController implements Initializable {
     private static final int BRICK_SIZE = 20; // Size of each brick in pixels
 
     @FXML
+    private Label clearedRows; // Label to show cleared rows
+
+    @FXML
     private GridPane gamePanel; // The main game grid
-
-
-
 
     @FXML
     private Group groupNotification; // Group to hold notifications
@@ -68,12 +68,16 @@ public class GuiController implements Initializable {
 
     private AudioManager audioManager = new AudioManager();
 
+    private int clearedRowCount = 0;
+
+
     @Override
     // initalises url and resources, prepares game interface and inputs from keyboard
     public void initialize(URL location, ResourceBundle resources) {
         Font.loadFont(getClass().getClassLoader().getResource("digital.ttf").toExternalForm(), 38);
         gamePanel.setFocusTraversable(true);
         gamePanel.requestFocus(); // Request focus to capture key events
+
         // Set up key event handler
         gamePanel.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -110,7 +114,6 @@ public class GuiController implements Initializable {
         reflection.setTopOffset(-12);
 
         Platform.runLater(() -> audioManager.playBackgroundMusic());
-        bindScore.getStyleClass().add("scoreClass");
 
     }
 //creates the tetris game board and the falling bricks
@@ -235,6 +238,7 @@ public class GuiController implements Initializable {
                 groupNotification.getChildren().add(notificationPanel);
                 notificationPanel.showScore(groupNotification.getChildren());
                 audioManager.playLineClearSound();
+                clearedRows(downData.getClearRow().getLinesRemoved());
             }
             refreshBrick(downData.getViewData());
         }
@@ -250,6 +254,7 @@ public class GuiController implements Initializable {
     public void bindScore(IntegerProperty scoreProperty) {
         if (bindScore != null) {
             bindScore.textProperty().bind(scoreProperty.asString("Score: %d"));
+
         }
     }
 
@@ -272,6 +277,8 @@ public class GuiController implements Initializable {
         isPause.setValue(Boolean.FALSE);
         isGameOver.setValue(Boolean.FALSE);
         Platform.runLater(() -> audioManager.playBackgroundMusic());
+        clearedRowCount = 0;
+        clearedRows.setText("Cleared Rows: " + clearedRowCount);
     }
 
     //stops the timeline to pause the game
@@ -289,4 +296,11 @@ public class GuiController implements Initializable {
         }
         gamePanel.requestFocus();
     }
+
+    public void clearedRows(int linesCleared) {
+        clearedRowCount += linesCleared;
+        Platform.runLater(() -> clearedRows.setText("Cleared Rows: " + clearedRowCount));
+        }
 }
+
+
