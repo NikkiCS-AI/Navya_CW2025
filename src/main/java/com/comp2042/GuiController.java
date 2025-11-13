@@ -1,5 +1,6 @@
 package com.comp2042;
 
+import com.comp2042.logic.bricks.Brick;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -70,6 +71,30 @@ public class GuiController implements Initializable {
 
     private int clearedRowCount = 0;
 
+    @FXML
+    private GridPane holdPanel;
+
+    @FXML
+    private Label holdLabel;
+
+    public void updateHoldDisplay(int[][] holdShape) {
+        if (holdPanel == null) return;
+        holdPanel.getChildren().clear();
+
+        for (int i = 0; i < holdShape.length; i++) {
+            for (int j = 0; j < holdShape[i].length; j++) {
+                if (holdShape[i][j] != 0) {
+                    Rectangle rect = new Rectangle(15, 15);
+                    rect.setFill(getFillColor(holdShape[i][j]));
+                    rect.setArcHeight(6);
+                    rect.setArcWidth(6);
+                    holdPanel.add(rect, j, i);
+                }
+            }
+        }
+    }
+
+
 
     @Override
     // initalises url and resources, prepares game interface and inputs from keyboard
@@ -103,6 +128,13 @@ public class GuiController implements Initializable {
                 if (keyEvent.getCode() == KeyCode.N) {
                     newGame(null);
                 }
+
+                if (keyEvent.getCode() == KeyCode.C) {
+                    eventListener.onHoldEvent();
+                }
+
+
+
 
             }
         });
@@ -302,5 +334,7 @@ public class GuiController implements Initializable {
         Platform.runLater(() -> clearedRows.setText("Cleared Rows: " + clearedRowCount));
         }
 }
+
+
 
 

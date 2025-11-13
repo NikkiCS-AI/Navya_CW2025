@@ -1,17 +1,23 @@
 package com.comp2042;
 
+import com.comp2042.logic.bricks.Brick;
 import com.comp2042.logic.bricks.BrickGenerator;
+import com.comp2042.logic.bricks.RandomBrickGenerator;
 
 public class GameController implements InputEventListener {
 
     private Board board = new SimpleBoard(25, 10);
 
     private final GuiController viewGuiController;
+    
+    private HoldBrick Hold;
 
     //connects the game logic with the GUI
     public GameController(GuiController c) {
         viewGuiController = c;
         board.createNewBrick();
+            Hold = new HoldBrick(new RandomBrickGenerator());
+
         viewGuiController.setEventListener(this);
         viewGuiController.initGameView(board.getBoardMatrix(), board.getViewData());
         viewGuiController.bindScore(board.getScore().scoreProperty());
@@ -25,6 +31,8 @@ public class GameController implements InputEventListener {
         if (!canMove) {
             board.mergeBrickToBackground();
             clearRow = board.clearRows();
+            Hold.resetHoldAvailability();
+
             if (clearRow.getLinesRemoved() > 0) {
                 board.getScore().add(clearRow.getScoreBonus());
             }
@@ -93,4 +101,22 @@ public class GameController implements InputEventListener {
         }
 
     }
+
+    @Override
+    public void onHoldEvent() {
+        handleHold();
+    }
+
+    private void handleHold() {
+        Brick current = new RandomBrickGenerator().getBrick();
+        Brick swapped = Hold.hold(current);
+
+        // For now, just visualize the held brick
+        Brick held = Hold.getHeldBrick();
+        if (held != null) {
+            viewGuiController.updateHoldDisplay(held.getShapeMatrix().get(0));
+        }
+    }
+
+
 }

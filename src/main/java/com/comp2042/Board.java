@@ -34,4 +34,5 @@ public interface Board {
 
     // resets the game state for a new game
     void newGame();
+
 }
