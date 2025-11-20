@@ -138,4 +138,14 @@ public class SimpleBoard implements Board {
         score.reset();
         createNewBrick();
     }
+
+    public Brick getCurrentBrick() {
+        return brickRotator.getBrick();
+    }
+
+    public void setCurrentBrick(Brick b) {
+        brickRotator.setBrick(b);
+        currentOffset = new Point(4, 1);  // Reset drop position
+    }
+
 }

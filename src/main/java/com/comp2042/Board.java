@@ -1,6 +1,11 @@
 package com.comp2042;
-
+import com.comp2042.logic.bricks.Brick;
 public interface Board {
+    // returns the current brick (for hold / swap operations)
+    Brick getCurrentBrick();
+
+    // set the current falling brick (used by hold/swap)
+    void setCurrentBrick(Brick brick);
 
     // returns if the brick was moved down successfully
     boolean moveBrickDown();

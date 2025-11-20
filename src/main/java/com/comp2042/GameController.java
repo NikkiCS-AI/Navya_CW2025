@@ -108,15 +108,34 @@ public class GameController implements InputEventListener {
     }
 
     private void handleHold() {
-        Brick current = new RandomBrickGenerator().getBrick();
-        Brick swapped = Hold.hold(current);
 
-        // For now, just visualize the held brick
+        // 1. Get the brick currently falling on the board (INSTANCE, not class)
+        Brick currentBrick = board.getCurrentBrick();
+
+        // 2. Try to hold/swap
+        Brick swapped = Hold.hold(currentBrick);
+
+        // 3. If swapped is different, apply the newly active brick
+        if (swapped != currentBrick) {
+            board.setCurrentBrick(swapped);
+        }
+
+        // 4. Update the GUI hold panel
         Brick held = Hold.getHeldBrick();
         if (held != null) {
-            viewGuiController.updateHoldDisplay(held.getShapeMatrix().get(0));
+            viewGuiController.updateHoldDisplay(
+                    held.getShapeMatrix().get(0)
+            );
         }
+
+        // Center/update display of falling brick
+        refreshFallingBrick();
     }
+
+    private void refreshFallingBrick() {
+        viewGuiController.refreshBrick(board.getViewData());
+    }
+
 
 
 }

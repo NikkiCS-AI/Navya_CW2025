@@ -5,7 +5,7 @@ import com.comp2042.logic.bricks.BrickGenerator;
 
 public class HoldBrick {
     private Brick heldBrick;        // The brick currently being held
-    private boolean isHeld;
+    private boolean isHeld;         // True if hold was used on this drop
     private final BrickGenerator generator;
 
     public HoldBrick(BrickGenerator generator) {
@@ -15,23 +15,25 @@ public class HoldBrick {
     }
 
     /**
-     * Handles the hold or swap logic.
-     * @param currentBrick The brick currently active on the board.
-     * @return The brick that should now be active (either new or swapped).
+     * Classic Tetris hold mechanic.
+     * @param currentBrick The brick currently falling.
+     * @return The brick that should become active (swapped or newly generated).
      */
     public Brick hold(Brick currentBrick) {
         if (isHeld) {
-            // You can only hold once per active piece
+            // Holding twice per drop is NOT allowed
             return currentBrick;
         }
 
         Brick temp = heldBrick;
+
+        // First time holding: store current and get a fresh brick
         if (heldBrick == null) {
-            // First time: save the current brick and generate a new one
             heldBrick = currentBrick;
-            currentBrick = generator.getNextBrick();
-        } else {
-            // Swap the current and held bricks
+            currentBrick = generator.getBrick();   // ✔ get a NEW piece
+        }
+        else {
+            // Classic swap
             heldBrick = currentBrick;
             currentBrick = temp;
         }
@@ -40,17 +42,17 @@ public class HoldBrick {
         return currentBrick;
     }
 
-    /** Resets hold availability after a brick locks down. */
+    /** Reset after a brick locks down (drop completes). */
     public void resetHoldAvailability() {
         isHeld = false;
     }
 
-    /** @return the held brick (for display) */
+    /** Returns the stored brick (for GUI display). */
     public Brick getHeldBrick() {
         return heldBrick;
     }
 
-    /** @return true if player already used hold this turn */
+    /** True if the player already held once this drop. */
     public boolean hasHeldThisTurn() {
         return isHeld;
     }
