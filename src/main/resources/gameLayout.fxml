@@ -17,12 +17,15 @@
 
     <Button fx:id="pauseGame" layoutX="10" layoutY="10" onAction="#pauseGame" text="Pause" styleClass="pauseStyle"/>
 
-    <Label fx:id="bindScore" layoutX="230" layoutY="150" text="Score: "  styleClass="scoreClass" />
+    <Label fx:id="bindScore" layoutX="240" layoutY="150" text="Score: "  styleClass="scoreClass" />
 
-    <Label fx:id="clearedRows" layoutX="230" layoutY="200" text="Cleared Rows: " styleClass="linesCleared"/>
+    <Label fx:id="clearedRows" layoutX="240" layoutY="200" text="Cleared Rows: " styleClass="linesCleared"/>
 
-    <Label fx:id="nextLabel" layoutX="233" layoutY="10" text="Next: " styleClass="nextBrickLabel"/>
-    <GridPane fx:id="previewPanel" layoutX="232" layoutY="60" hgap="1" vgap="1" styleClass="nextBrick"/>
+    <Label fx:id="nextLabel" layoutX="243" layoutY="10" text="Next: " styleClass="nextBrickLabel"/>
+    <GridPane fx:id="previewPanel" layoutX="242" layoutY="60" hgap="1" vgap="1" styleClass="nextBrick"/>
+
+    <Label fx:id="holdLabel" layoutX="240" layoutY="250" text="Hold: " styleClass="holdClass"/>
+    <GridPane fx:id="holdPanel" layoutX="243" layoutY="300" hgap="1" vgap="1" styleClass="holdClass"/>
 
     <Group fx:id="groupNotification" layoutX="14" layoutY="203">
         <VBox alignment="CENTER">

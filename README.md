@@ -4,7 +4,7 @@
 ## • Compilation Instructions:  
   
 ## • Implemented and Working Properly:
-Backgrpund music and sound effects integrated into the game using Audio Manager class.
+Background music and sound effects integrated into the game using Audio Manager class.
 Pause and resume functionality added to the game.
 Score display bug fixed to accurately reflect the player's score.
 Preview panel added to the GUI for to allow users to see upcoming the next brick.
@@ -14,12 +14,17 @@ Preview panel added to the GUI for to allow users to see upcoming the next brick
 ## • Features Not Implemented:
   
 ## • New Java Classes: 
-Added class Audio Manager to handle background music and sound effects for the game.  
+Added class Audio Manager to handle background music and sound effects for the game. 
+Added preview panel to GuiController.java to display the next brick to the user.
+Added TetrominoShapeType.java to consolidate all brick shapes into a single class for better maintainability.
+Added Hold functionality to allow users to hold a tetromino for later use.
   
 ## • Modified Java Classes: 
 GuiController.java - Added functionality to pause and resume game.
 GuiController.java - Fixed bug in score display.
 GuiController.java - Added functionality to integrate Audio Manager for sound effects and background music.
+Removed all bricks and combined it into one class called TetrominoShapeType.java to reduce redundancy and improve code maintainability.
+
 
   
 ## • Unexpected Problems: 
