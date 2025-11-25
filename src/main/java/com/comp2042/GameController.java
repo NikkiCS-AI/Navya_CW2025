@@ -88,6 +88,7 @@ public class GameController implements InputEventListener {
     @Override
     public void createNewGame() {
         board.newGame();
+        Hold = new HoldBrick(new RandomBrickGenerator());
         viewGuiController.refreshGameBackground(board.getBoardMatrix());
 
         ViewData viewData = board.getViewData();
@@ -116,9 +117,8 @@ public class GameController implements InputEventListener {
         Brick swapped = Hold.hold(currentBrick);
 
         // 3. If swapped is different, apply the newly active brick
-        if (swapped != currentBrick) {
-            board.setCurrentBrick(swapped);
-        }
+        board.setCurrentBrick(swapped);
+
 
         // 4. Update the GUI hold panel
         Brick held = Hold.getHeldBrick();

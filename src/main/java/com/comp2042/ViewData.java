@@ -1,5 +1,8 @@
 package com.comp2042;
 
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
 public final class ViewData {
 
     private final int[][] brickData;
@@ -34,4 +37,5 @@ public final class ViewData {
     public int[][] getNextBrickData() {
         return MatrixOperations.copy(nextBrickData);
     }
+
 }

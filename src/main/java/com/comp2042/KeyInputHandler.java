@@ -1,8 +1,6 @@
 package com.comp2042;
 
-import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 
 public class KeyInputHandler {
 
@@ -11,11 +9,12 @@ public class KeyInputHandler {
     public KeyInputHandler(GuiController gui) {
         this.gui = gui;
     }
-    // Set up key event handler
-    public void handleMovementKey(KeyCode code) {
-        if (gui.isPause.get() || gui.isGameOver.get()) return;
 
-        // movement switch will go here
+    public void handleMovementKey(KeyCode code) {
+
+        // FIX: use GuiController interface, not fields
+        if (gui.isPaused() || gui.isGameOver()) return;
+
         switch (code) {
             case LEFT:
             case A:
@@ -44,16 +43,13 @@ public class KeyInputHandler {
                 break;
 
             default:
-                // not a movement key
                 break;
         }
-
-
     }
 
     public void handleSystemKey(KeyCode code) {
-        // system actions (new game, hold)
         switch (code) {
+
             case N:
                 gui.newGame(null);
                 break;
@@ -67,6 +63,3 @@ public class KeyInputHandler {
         }
     }
 }
-
-
-
