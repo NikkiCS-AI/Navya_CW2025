@@ -6,7 +6,7 @@ import javafx.util.Duration;
 
 import java.net.URL;
 
-public class AudioManager {
+public class AudioManager implements AudioManagerInterface {
 
     private MediaPlayer backgroundMusic;
     private MediaPlayer lineClearSound;
@@ -30,7 +30,7 @@ public class AudioManager {
             e.printStackTrace();
             System.err.println("Error loading audio files: " + e.getMessage());
         }
-        System.out.println("Background music path: " + getClass().getResource("src/main/resources/Audio/mixkit-game-level-music-689.mp3"));
+        System.out.println("Background music path: " + getClass().getResource("/Audio/mixkit-game-level-music-689.mp3"));
 
     }
 

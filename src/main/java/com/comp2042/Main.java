@@ -7,25 +7,25 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.util.ResourceBundle;
 
 public class Main extends Application {
 
     @Override
-    //loads fxml layout, initalises gui and game controllers, and starts the game
     public void start(Stage primaryStage) throws Exception {
 
         URL location = getClass().getClassLoader().getResource("gameLayout.fxml");
-        ResourceBundle resources = null;
-        FXMLLoader fxmlLoader = new FXMLLoader(location, resources);
-        Parent root = fxmlLoader.load();
-        GuiController c = fxmlLoader.getController();
+        FXMLLoader loader = new FXMLLoader(location);
+
+        Parent root = loader.load();
+
+        GuiController c = loader.getController();  // Now FXML creates it
 
         primaryStage.setTitle("TetrisJFX");
-        Scene scene = new Scene(root, 400, 540);
+        Scene scene = new Scene(root, 650, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
-        new GameController(c);
+
+        c.initGame();  // Continue your game setup
     }
 
 

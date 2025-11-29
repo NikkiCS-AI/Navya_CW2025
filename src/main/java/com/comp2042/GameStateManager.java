@@ -5,7 +5,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
-public class GameStateManager {
+public class GameStateManager implements GameStateInterface {
     private final BooleanProperty isPaused = new SimpleBooleanProperty(false);
     private final BooleanProperty isGameOver = new SimpleBooleanProperty(false);
     private final IntegerProperty clearedRowCount = new SimpleIntegerProperty(0);

@@ -1,7 +1,6 @@
 package com.comp2042;
 
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,20 +16,23 @@ import javafx.scene.text.Font;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class GuiController implements Initializable {
+public class GuiController implements Initializable, GameMovementInterface {
 
     static final int BRICK_SIZE = 20;
 
-    private final GridRenderer gridRenderer = new GridRenderer();
-    private final BrickRenderer brickRenderer = new BrickRenderer();
-    private final GameLoopManager gameLoop = new GameLoopManager();
-    private final GameStateManager gameState = new GameStateManager();
+    private final GridRenderer gridRenderer;
+    private final BrickRenderer brickRenderer;
+    private final GameLoopInterface gameLoop;
+    private final GameStateInterface gameState;
+    private final AudioManagerInterface audioManager;
+
+    private RowsClearedEffectsHandler rowsEffectsHandler;
+    private GameOverHandler gameOverHandler;
 
     @FXML private Label clearedRows;
     @FXML private Label bindScore;
 
-    @FXML
-    GridPane gamePanel;
+    @FXML GridPane gamePanel;
     @FXML private GridPane brickPanel;
     @FXML private GridPane previewPanel;
     @FXML private GridPane holdPanel;
@@ -38,27 +40,42 @@ public class GuiController implements Initializable {
     @FXML private Group groupNotification;
     @FXML private GameOverPanel gameOverPanel;
     @FXML private Button pauseGame;
-    @FXML private Label holdLabel;
 
     InputEventListener eventListener;
     private KeyInputHandler inputHandler;
 
     Rectangle[][] displayMatrix;
-    Rectangle[][] rectangles;
+    Rectangle[][] brickRectangles;
 
-    private Timeline timeLine;
-    private int clearedRowCount = 0;
+    private GameController gameController;
 
-    private final AudioManager audioManager = new AudioManager();
-
-
+    public GuiController() {
+        this.gridRenderer = new GridRenderer();
+        this.brickRenderer = new BrickRenderer();
+        this.gameLoop = new GameLoopManager();
+        this.gameState = new GameStateManager();
+        this.audioManager = new AudioManager();
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loadFont();
+        setupHelpers();
         createGamePanel();
+        setupInputHandler();
+        setupReflection();
 
-        inputHandler = new KeyInputHandler(this);
+        gameOverPanel.setVisible(false);
+
+    }
+
+    private void setupHelpers() {
+        rowsEffectsHandler = new RowsClearedEffectsHandler(audioManager, gameState, clearedRows);
+        gameOverHandler = new GameOverHandler(audioManager, gameLoop, gameState, gameOverPanel);
+    }
+
+    private void setupInputHandler() {
+        inputHandler = new KeyInputHandler(this); // <--- FIXED
 
         gamePanel.setOnKeyPressed(event -> {
             KeyCode code = event.getCode();
@@ -66,15 +83,13 @@ public class GuiController implements Initializable {
             inputHandler.handleSystemKey(code);
             event.consume();
         });
+    }
 
-        gameOverPanel.setVisible(false);
-
+    private void setupReflection() {
         Reflection reflection = new Reflection();
         reflection.setFraction(0.8);
         reflection.setTopOpacity(0.9);
         reflection.setTopOffset(-12);
-
-        Platform.runLater(audioManager::playBackgroundMusic);
     }
 
     private void createGamePanel() {
@@ -86,30 +101,17 @@ public class GuiController implements Initializable {
         Font.loadFont(getClass().getClassLoader().getResource("digital.ttf").toExternalForm(), 38);
     }
 
+    public boolean isPaused() { return gameState.isPaused(); }
+    public boolean isGameOver() { return gameState.isGameOver(); }
 
-
-    public boolean isPaused() {
-        return gameState.isPaused();
+    public void initGame() {
+        gameController = new GameController(this);
+        audioManager.playBackgroundMusic();
     }
-
-    public boolean isGameOver() {
-        return gameState.isGameOver();
-    }
-
 
     public void initGameView(int[][] boardMatrix, ViewData brick) {
-
-        brickPanel.setLayoutX(
-                gamePanel.getLayoutX()
-                        + brick.getxPosition() * (brickPanel.getVgap() + BRICK_SIZE)
-        );
-
-        brickPanel.setLayoutY(
-                -42 + gamePanel.getLayoutY()
-                        + brick.getyPosition() * (brickPanel.getHgap() + BRICK_SIZE)
-        );
-
         gridRenderer.createGrid(boardMatrix, brick, this);
+        brickRenderer.positionBrickPanel(gamePanel, brickPanel, brick);
 
         gameLoop.start(() -> performMoveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD)));
     }
@@ -119,7 +121,7 @@ public class GuiController implements Initializable {
     }
 
     public void refreshBrick(ViewData brick) {
-        brickRenderer.refreshBrick(brick, rectangles, brickPanel, gamePanel, gameState.isPaused());
+        brickRenderer.refreshBrick(brick, brickRectangles, brickPanel, gamePanel, gameState.isPaused());
     }
 
     public void refreshGameBackground(int[][] board) {
@@ -131,57 +133,40 @@ public class GuiController implements Initializable {
     }
 
     public void performMoveDown(MoveEvent event) {
-        if (!gameState.isPaused()) {
-            DownData data = eventListener.onDownEvent(event);
-
-            if (data.getClearRow() != null && data.getClearRow().getLinesRemoved() > 0) {
-                audioManager.playLineClearSound();
-                gameState.addClearedRows(data.getClearRow().getLinesRemoved());
-
-                Platform.runLater(() ->
-                        clearedRows.setText("Cleared Rows: " + gameState.getClearedRowCount())
-                );
-            }
-
-            refreshBrick(data.getViewData());
+        if (gameState.isPaused()) {
+            gamePanel.requestFocus();
+            return;
         }
 
-        gamePanel.requestFocus();
-    }
+        DownData data = eventListener.onDownEvent(event);
 
-    public void setEventListener(InputEventListener listener) {
-        this.eventListener = listener;
+        rowsEffectsHandler.apply(data.getClearRow());
+
+        refreshBrick(data.getViewData());
+        gamePanel.requestFocus();
     }
 
     public void bindScore(IntegerProperty scoreProperty) {
         if (bindScore != null) {
+            bindScore.textProperty().unbind();
             bindScore.textProperty().bind(scoreProperty.asString("Score: %d"));
         }
     }
 
     public void gameOver() {
-        gameLoop.stop();
-        gameState.setGameOver(true);
-        gameOverPanel.setVisible(true);
-
-        audioManager.stopBackgroundMusic();
-        audioManager.playGameOverSound();
+        gameOverHandler.showGameOver();
     }
 
     public void newGame(javafx.event.ActionEvent actionEvent) {
-        gameLoop.stop();
-        gameState.reset();
-        clearedRowCount = 0;
-        clearedRows.setText("Cleared Rows: 0");
+        gameOverHandler.resetForNewGame();
 
-        gameOverPanel.setVisible(false);
+        clearedRows.setText("Cleared Rows: 0");
 
         eventListener.createNewGame();
         audioManager.playBackgroundMusic();
 
         gameLoop.start(() -> performMoveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD)));
     }
-
 
     public void pauseGame(javafx.event.ActionEvent actionEvent) {
         if (!gameState.isPaused()) {
@@ -195,19 +180,50 @@ public class GuiController implements Initializable {
             audioManager.playBackgroundMusic();
             pauseGame.setText("Pause");
         }
-
         gamePanel.requestFocus();
     }
 
+    public GridPane getbrickPanel() { return brickPanel; }
 
-    public void clearedRows(int linesCleared) {
-        clearedRowCount += linesCleared;
-        Platform.runLater(() ->
-                clearedRows.setText("Cleared Rows: " + clearedRowCount)
+    public void setEventListener(InputEventListener listener) {
+        this.eventListener = listener;
+    }
+
+    @Override
+    public void softDrop() {
+        performMoveDown(
+                new MoveEvent(EventType.DOWN, EventSource.USER)
         );
     }
 
-    public GridPane getbrickPanel() {
-        return brickPanel;
+    @Override
+    public void moveLeft() {
+        refreshBrick(eventListener.onLeftEvent(
+                new MoveEvent(EventType.LEFT, EventSource.USER)
+        ));
+    }
+
+    @Override
+    public void moveRight() {
+        refreshBrick(eventListener.onRightEvent(
+                new MoveEvent(EventType.RIGHT, EventSource.USER)
+        ));
+    }
+
+    @Override
+    public void rotate() {
+        refreshBrick(eventListener.onRotateEvent(
+                new MoveEvent(EventType.ROTATE, EventSource.USER)
+        ));
+    }
+
+    @Override
+    public void hold() {
+        eventListener.onHoldEvent();
+    }
+
+    @Override
+    public void newGame() {
+        newGame(null);
     }
 }

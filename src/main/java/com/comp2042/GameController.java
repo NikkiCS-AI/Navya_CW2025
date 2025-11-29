@@ -6,22 +6,25 @@ import com.comp2042.logic.bricks.RandomBrickGenerator;
 
 public class GameController implements InputEventListener {
 
-    private Board board = new SimpleBoard(25, 10);
+    private final Board board = new SimpleBoard(25, 10);
 
     private final GuiController viewGuiController;
-    
+
     private HoldBrick Hold;
 
     //connects the game logic with the GUI
     public GameController(GuiController c) {
-        viewGuiController = c;
-        board.createNewBrick();
-            Hold = new HoldBrick(new RandomBrickGenerator());
+        this.viewGuiController = c;
 
-        viewGuiController.setEventListener(this);
-        viewGuiController.initGameView(board.getBoardMatrix(), board.getViewData());
-        viewGuiController.bindScore(board.getScore().scoreProperty());
+        c.setEventListener(this);
+
+        board.createNewBrick();
+        Hold = new HoldBrick(new RandomBrickGenerator());
+
+        c.initGameView(board.getBoardMatrix(), board.getViewData());
+        c.bindScore(board.getScore().scoreProperty());
     }
+
 
     //hanfles the brick falling down
     @Override
@@ -106,6 +109,11 @@ public class GameController implements InputEventListener {
     @Override
     public void onHoldEvent() {
         handleHold();
+    }
+
+    @Override
+    public int[][] getHoldShape() {
+        return new int[0][];
     }
 
     private void handleHold() {

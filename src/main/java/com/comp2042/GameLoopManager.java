@@ -4,7 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
-public class GameLoopManager {
+public class GameLoopManager implements GameLoopInterface {
     private Timeline timeLine;
     private static final double DEFAULT_SPEED = 400; // milliseconds
 
