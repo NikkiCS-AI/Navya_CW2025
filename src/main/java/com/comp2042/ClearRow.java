@@ -6,24 +6,31 @@ public final class ClearRow {
     private final int[][] newMatrix;
     private final int scoreBonus;
 
-    // represents the result of clearing rows in Tetris and creates a new clear row object
+    // No-argument constructor for empty clear row
+    public ClearRow() {
+        this.linesRemoved = 0;
+        this.newMatrix = new int[0][0];
+        this.scoreBonus = 0;
+    }
+
+    // Represents the result of clearing rows in Tetris and creates a new clear row object
     public ClearRow(int linesRemoved, int[][] newMatrix, int scoreBonus) {
         this.linesRemoved = linesRemoved;
         this.newMatrix = newMatrix;
         this.scoreBonus = scoreBonus;
     }
 
-    // return the number of rows removed
+    // Return the number of rows removed
     public int getLinesRemoved() {
         return linesRemoved;
     }
 
-    // return the copy of new matrix after rows have been cleared
+    // Return the copy of new matrix after rows have been cleared
     public int[][] getNewMatrix() {
         return MatrixOperations.copy(newMatrix);
     }
 
-    //returns the score bonus achieved by clearing the rows
+    // Returns the score bonus achieved by clearing the rows
     public int getScoreBonus() {
         return scoreBonus;
     }

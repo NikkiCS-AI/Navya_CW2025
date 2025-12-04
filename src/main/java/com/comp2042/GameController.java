@@ -6,94 +6,191 @@ import com.comp2042.logic.bricks.RandomBrickGenerator;
 
 public class GameController implements InputEventListener {
 
-    private final Board board = new SimpleBoard(25, 10);
-
+    private final Board board = new SimpleBoard(10, 24);
     private final GuiController viewGuiController;
+    private HoldBrick hold;
+    private boolean gameOver = false;
 
-    private HoldBrick Hold;
-
-    //connects the game logic with the GUI
+    // Connects the game logic with the GUI
     public GameController(GuiController c) {
         this.viewGuiController = c;
-
         c.setEventListener(this);
 
-        board.createNewBrick();
-        Hold = new HoldBrick(new RandomBrickGenerator());
+        // Create first brick
+        boolean isGameOver = board.createNewBrick();
+        if (isGameOver) {
+            System.out.println("GAME OVER on initial spawn!");
+            gameOver = true;
+            viewGuiController.gameOver();
+            return;
+        }
+
+        hold = new HoldBrick(new RandomBrickGenerator());
 
         c.initGameView(board.getBoardMatrix(), board.getViewData());
         c.bindScore(board.getScore().scoreProperty());
+
+        // Update next brick preview
+        updateNextBrickPreview();
+
+        System.out.println("GameController initialized. Game over: " + gameOver);
     }
 
-
-    //hanfles the brick falling down
+    // Handles the brick falling down
     @Override
     public DownData onDownEvent(MoveEvent event) {
+        if (gameOver) {
+            System.out.println("Game is over - ignoring down event");
+            return new DownData(new ClearRow(), board.getViewData());
+        }
+
+        System.out.println("\n=== GameController.onDownEvent ===");
         boolean canMove = board.moveBrickDown();
-        ClearRow clearRow = null;
+        ClearRow clearRow = new ClearRow();
+
         if (!canMove) {
+            System.out.println("Brick cannot move down - merging to board");
+
+            // Merge current brick to board
             board.mergeBrickToBackground();
+
+            // Check if bricks reached the spawn area
+            if (((SimpleBoard)board).checkGameOver()) {
+                System.out.println("GAME OVER: Bricks reached the spawn area!");
+                gameOver = true;
+                viewGuiController.gameOver();
+                return new DownData(clearRow, board.getViewData());
+            }
+
+            // Clear completed rows
             clearRow = board.clearRows();
-            Hold.resetHoldAvailability();
+            hold.resetHoldAvailability();
 
             if (clearRow.getLinesRemoved() > 0) {
+                System.out.println("Cleared " + clearRow.getLinesRemoved() + " rows");
                 board.getScore().add(clearRow.getScoreBonus());
             }
-            if (board.createNewBrick()) {
+
+            // Create new brick and check for game over
+            boolean isGameOver = board.createNewBrick();
+            if (isGameOver) {
+                System.out.println("GAME OVER: Cannot spawn new brick!");
+                gameOver = true;
                 viewGuiController.gameOver();
             }
 
+            // Refresh background to show merged bricks
             viewGuiController.refreshGameBackground(board.getBoardMatrix());
 
-            // --- Update next brick preview ---
-            ViewData viewData = board.getViewData(); // includes nextBrickData
-            if (viewData != null && viewData.getNextBrickData() != null) {
-                ViewData nextView = new ViewData(
-                        viewData.getNextBrickData(), // next brick shape
-                        0, 0,                        // position irrelevant for preview
-                        null                         // no need for nested next-next brick
-                );
-                viewGuiController.updateNextBrick(nextView);
-            }
+            // Update next brick preview
+            updateNextBrickPreview();
 
-
-        } else {
-            if (event.getEventSource() == EventSource.USER) {
-
-            }
+            System.out.println("Game over state: " + gameOver);
         }
+
         return new DownData(clearRow, board.getViewData());
     }
 
-    //moves brick to left
+    // Moves brick to left
     @Override
     public ViewData onLeftEvent(MoveEvent event) {
+        if (gameOver) {
+            System.out.println("Game is over - ignoring left event");
+            return board.getViewData();
+        }
         board.moveBrickLeft();
         return board.getViewData();
     }
 
-    //moves brick to right
+    // Moves brick to right
     @Override
     public ViewData onRightEvent(MoveEvent event) {
+        if (gameOver) {
+            System.out.println("Game is over - ignoring right event");
+            return board.getViewData();
+        }
         board.moveBrickRight();
         return board.getViewData();
     }
 
-    //rotates brick
+    // Rotates brick
     @Override
     public ViewData onRotateEvent(MoveEvent event) {
+        if (gameOver) {
+            System.out.println("Game is over - ignoring rotate event");
+            return board.getViewData();
+        }
         board.rotateLeftBrick();
         return board.getViewData();
     }
 
-
-    //starts a new game
+    // Starts a new game
     @Override
     public void createNewGame() {
+        System.out.println("\n=== Creating New Game ===");
+        gameOver = false;
         board.newGame();
-        Hold = new HoldBrick(new RandomBrickGenerator());
+        hold = new HoldBrick(new RandomBrickGenerator());
         viewGuiController.refreshGameBackground(board.getBoardMatrix());
+        updateNextBrickPreview();
+        System.out.println("New game started. Game over: " + gameOver);
+    }
 
+    @Override
+    public void onHoldEvent() {
+        if (gameOver) {
+            System.out.println("Game is over - ignoring hold event");
+            return;
+        }
+        handleHold();
+    }
+
+    @Override
+    public int[][] getHoldShape() {
+        if (hold != null && hold.getHeldBrick() != null) {
+            return hold.getHeldBrick().getShapeMatrix().get(0);
+        }
+        return new int[0][];
+    }
+
+    private void handleHold() {
+        // 1. Get the brick currently falling on the board
+        Brick currentBrick = board.getCurrentBrick();
+        if (currentBrick == null) {
+            System.out.println("No current brick to hold");
+            return;
+        }
+
+        // 2. Try to hold/swap
+        Brick swapped = hold.hold(currentBrick);
+        if (swapped == null) {
+            System.out.println("Hold failed - swapped brick is null");
+            return;
+        }
+
+        // 3. Apply the newly active brick
+        board.setCurrentBrick(swapped);
+
+        // 4. Update the GUI hold panel
+        Brick held = hold.getHeldBrick();
+        if (held != null) {
+            viewGuiController.updateHoldDisplay(held.getShapeMatrix().get(0));
+        }
+
+        // Center/update display of falling brick
+        refreshFallingBrick();
+        System.out.println("Brick held successfully");
+    }
+
+    private void refreshFallingBrick() {
+        viewGuiController.refreshBrick(board.getViewData());
+    }
+
+    public ViewData getCurrentViewData() {
+        return board.getViewData();
+    }
+
+    private void updateNextBrickPreview() {
         ViewData viewData = board.getViewData();
         if (viewData != null && viewData.getNextBrickData() != null) {
             ViewData nextView = new ViewData(
@@ -103,47 +200,9 @@ public class GameController implements InputEventListener {
             );
             viewGuiController.updateNextBrick(nextView);
         }
-
     }
 
-    @Override
-    public void onHoldEvent() {
-        handleHold();
+    public boolean isGameOver() {
+        return gameOver;
     }
-
-    @Override
-    public int[][] getHoldShape() {
-        return new int[0][];
-    }
-
-    private void handleHold() {
-
-        // 1. Get the brick currently falling on the board (INSTANCE, not class)
-        Brick currentBrick = board.getCurrentBrick();
-
-        // 2. Try to hold/swap
-        Brick swapped = Hold.hold(currentBrick);
-
-        // 3. If swapped is different, apply the newly active brick
-        board.setCurrentBrick(swapped);
-
-
-        // 4. Update the GUI hold panel
-        Brick held = Hold.getHeldBrick();
-        if (held != null) {
-            viewGuiController.updateHoldDisplay(
-                    held.getShapeMatrix().get(0)
-            );
-        }
-
-        // Center/update display of falling brick
-        refreshFallingBrick();
-    }
-
-    private void refreshFallingBrick() {
-        viewGuiController.refreshBrick(board.getViewData());
-    }
-
-
-
 }

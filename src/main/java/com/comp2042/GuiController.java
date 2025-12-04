@@ -17,7 +17,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class GuiController implements Initializable, GameMovementInterface {
-
     static final int BRICK_SIZE = 20;
 
     private final GridRenderer gridRenderer;
@@ -66,7 +65,7 @@ public class GuiController implements Initializable, GameMovementInterface {
         setupReflection();
 
         gameOverPanel.setVisible(false);
-
+        gamePanel.setStyle("-fx-background-color: rgba(0, 0, 0, 0.8);");
     }
 
     private void setupHelpers() {
@@ -75,8 +74,9 @@ public class GuiController implements Initializable, GameMovementInterface {
     }
 
     private void setupInputHandler() {
-        inputHandler = new KeyInputHandler(this); // <--- FIXED
+        inputHandler = new KeyInputHandler(this);
 
+        // Set up key handlers
         gamePanel.setOnKeyPressed(event -> {
             KeyCode code = event.getCode();
             inputHandler.handleMovementKey(code);
@@ -95,10 +95,17 @@ public class GuiController implements Initializable, GameMovementInterface {
     private void createGamePanel() {
         gamePanel.setFocusTraversable(true);
         gamePanel.requestFocus();
+
+        // Set grid lines for debugging
+        gamePanel.setGridLinesVisible(false); // Set to true for debugging
     }
 
     private void loadFont() {
-        Font.loadFont(getClass().getClassLoader().getResource("digital.ttf").toExternalForm(), 38);
+        try {
+            Font.loadFont(getClass().getClassLoader().getResource("digital.ttf").toExternalForm(), 38);
+        } catch (Exception e) {
+            System.err.println("Could not load font: " + e.getMessage());
+        }
     }
 
     public boolean isPaused() { return gameState.isPaused(); }
@@ -107,11 +114,19 @@ public class GuiController implements Initializable, GameMovementInterface {
     public void initGame() {
         gameController = new GameController(this);
         audioManager.playBackgroundMusic();
+
+        // Debug info
+        System.out.println("\n=== GuiController.initGame ===");
+        System.out.println("Game panel size: " + gamePanel.getPrefWidth() + "x" + gamePanel.getPrefHeight());
+        System.out.println("Visible rows: " + GridRenderer.VISIBLE_ROWS);
+        System.out.println("Visible start row: " + GridRenderer.VISIBLE_START_ROW);
     }
 
     public void initGameView(int[][] boardMatrix, ViewData brick) {
+        System.out.println("\n=== initGameView ===");
+        System.out.println("Board matrix: " + boardMatrix.length + "x" + boardMatrix[0].length);
+
         gridRenderer.createGrid(boardMatrix, brick, this);
-        brickRenderer.positionBrickPanel(gamePanel, brickPanel, brick);
 
         gameLoop.start(() -> performMoveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD)));
     }
@@ -143,6 +158,9 @@ public class GuiController implements Initializable, GameMovementInterface {
         rowsEffectsHandler.apply(data.getClearRow());
 
         refreshBrick(data.getViewData());
+
+        debugBrickInfo();
+
         gamePanel.requestFocus();
     }
 
@@ -191,30 +209,22 @@ public class GuiController implements Initializable, GameMovementInterface {
 
     @Override
     public void softDrop() {
-        performMoveDown(
-                new MoveEvent(EventType.DOWN, EventSource.USER)
-        );
+        performMoveDown(new MoveEvent(EventType.DOWN, EventSource.USER));
     }
 
     @Override
     public void moveLeft() {
-        refreshBrick(eventListener.onLeftEvent(
-                new MoveEvent(EventType.LEFT, EventSource.USER)
-        ));
+        refreshBrick(eventListener.onLeftEvent(new MoveEvent(EventType.LEFT, EventSource.USER)));
     }
 
     @Override
     public void moveRight() {
-        refreshBrick(eventListener.onRightEvent(
-                new MoveEvent(EventType.RIGHT, EventSource.USER)
-        ));
+        refreshBrick(eventListener.onRightEvent(new MoveEvent(EventType.RIGHT, EventSource.USER)));
     }
 
     @Override
     public void rotate() {
-        refreshBrick(eventListener.onRotateEvent(
-                new MoveEvent(EventType.ROTATE, EventSource.USER)
-        ));
+        refreshBrick(eventListener.onRotateEvent(new MoveEvent(EventType.ROTATE, EventSource.USER)));
     }
 
     @Override
@@ -225,5 +235,30 @@ public class GuiController implements Initializable, GameMovementInterface {
     @Override
     public void newGame() {
         newGame(null);
+    }
+
+    public void debugBrickInfo() {
+        if (eventListener instanceof GameController) {
+            ViewData brick = ((GameController) eventListener).getCurrentViewData();
+            if (brick != null) {
+                System.out.println("\n=== GUI DEBUG ===");
+                System.out.println("Brick position: X=" + brick.getxPosition() + ", Y=" + brick.getyPosition());
+                System.out.println("Brick shape: " + brick.getBrickData().length + "x" +
+                        (brick.getBrickData().length > 0 ? brick.getBrickData()[0].length : 0));
+
+                int visibleCells = 0;
+                int hiddenCells = 0;
+                for (int r = 0; r < brick.getBrickData().length; r++) {
+                    int boardY = brick.getyPosition() + r;
+                    if (boardY >= GridRenderer.VISIBLE_START_ROW) {
+                        visibleCells++;
+                    } else {
+                        hiddenCells++;
+                    }
+                }
+                System.out.println("Visible cells: " + visibleCells + ", Hidden cells: " + hiddenCells);
+                System.out.println("=== END DEBUG ===\n");
+            }
+        }
     }
 }

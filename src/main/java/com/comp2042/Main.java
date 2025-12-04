@@ -25,6 +25,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+
         c.initGame();  // Continue your game setup
     }
 
