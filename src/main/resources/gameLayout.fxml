@@ -1,76 +1,79 @@
 <?import com.comp2042.GameOverPanel?>
+<?import com.comp2042.StartMenu?>
+<?import com.comp2042.PauseMenu?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import com.comp2042.GameOverPanel?>
 <?import javafx.scene.Group?>
-<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
-<BorderPane fx:controller="com.comp2042.GuiController" xmlns:fx="http://javafx.com/fxml">
-    <!-- TOP BAR -->
-    <top>
-        <HBox spacing="20" alignment="CENTER_LEFT" style="-fx-padding: 12;">
-            <Button fx:id="pauseGame" text="Pause" onAction="#pauseGame" styleClass="pauseButton"/>
-        </HBox>
-    </top>
+<?import javafx.scene.control.Button?>
+<StackPane fx:controller="com.comp2042.GuiController" xmlns:fx="http://javafx.com/fxml">
 
-    <!-- CENTER: game area + sidebar -->
-    <center>
-        <HBox spacing="40" alignment="CENTER_LEFT" style="-fx-padding: 20;">
-            <!-- GAME BOARD AREA -->
-            <VBox alignment="TOP_CENTER" spacing="10">
-                <!-- Optional: Add a border around game area -->
-                <StackPane styleClass="gameBoard">
-                    <GridPane fx:id="gamePanel" prefWidth="200" prefHeight="400"/>
-                    <GridPane fx:id="brickPanel" prefWidth="200" prefHeight="400"/>
-                </StackPane>
-            </VBox>
+    <!-- Start Menu Screen (visible by default) -->
+    <StartMenu fx:id="startMenuScreen" visible="true" managed="true"/>
 
-            <!-- RIGHT SIDE PANEL -->
-            <VBox spacing="15" alignment="TOP_CENTER" styleClass="sideBar">
+    <!-- Game Screen (hidden by default) -->
+    <BorderPane fx:id="gameScreen" visible="false">
+        <!-- TOP BAR -->
+        <top>
+            <HBox fx:id="topBar" spacing="20" alignment="CENTER_LEFT" style="-fx-padding: 12;">
+                <Button fx:id="pauseGame" text="Pause" onAction="#pauseGame" styleClass="pauseButton"/>
+            </HBox>
+        </top>
 
-                <!-- NEXT BOX -->
-                <VBox spacing="5" alignment="TOP_CENTER" styleClass="infoBox">
-                    <Label text="NEXT" styleClass="panelTitle"/>
-                    <GridPane fx:id="previewPanel" hgap="1" vgap="1" styleClass="previewBox"/>
+        <!-- CENTER: game area + sidebar -->
+        <center>
+            <HBox fx:id="gameRoot" spacing="40" alignment="CENTER_LEFT" style="-fx-padding: 20;">
+                <!-- GAME BOARD AREA -->
+                <VBox alignment="TOP_CENTER" spacing="10">
+                    <!-- Optional: Add a border around game area -->
+                    <StackPane styleClass="gameBoard">
+                        <GridPane fx:id="gamePanel" prefWidth="200" prefHeight="400"/>
+                        <GridPane fx:id="brickPanel" prefWidth="200" prefHeight="400"/>
+                    </StackPane>
                 </VBox>
 
-                <!-- HOLD BOX -->
-                <VBox spacing="5" alignment="TOP_CENTER" styleClass="infoBox">
-                    <Label text="HOLD" styleClass="panelTitle"/>
-                    <GridPane fx:id="holdPanel" hgap="1" vgap="1" styleClass="previewBox"/>
-                </VBox>
+                <!-- RIGHT SIDE PANEL -->
+                <VBox spacing="15" alignment="TOP_CENTER" styleClass="sideBar">
 
-                <!-- SCORE BOX -->
-                <VBox spacing="5" alignment="TOP_CENTER" styleClass="infoBox">
-                    <Label text="SCORE" styleClass="panelTitle"/>
-                    <Label fx:id="bindScore" text="0" styleClass="panelValue"/>
-                </VBox>
+                    <!-- NEXT BOX -->
+                    <VBox spacing="5" alignment="TOP_CENTER" styleClass="infoBox">
+                        <Label text="NEXT" styleClass="panelTitle"/>
+                        <GridPane fx:id="previewPanel" hgap="1" vgap="1" styleClass="previewBox"/>
+                    </VBox>
 
-                <!-- CLEARED ROWS BOX -->
-                <VBox spacing="5" alignment="TOP_CENTER" styleClass="infoBox">
-                    <Label text="CLEARED ROWS" styleClass="panelTitle"/>
-                    <Label fx:id="clearedRows" text="0" styleClass="panelValue" wrapText="true" alignment="CENTER"/>
-                </VBox>
-            </VBox>
-        </HBox>
-    </center>
+                    <!-- HOLD BOX -->
+                    <VBox spacing="5" alignment="TOP_CENTER" styleClass="infoBox">
+                        <Label text="HOLD" styleClass="panelTitle"/>
+                        <GridPane fx:id="holdPanel" hgap="1" vgap="1" styleClass="previewBox"/>
+                    </VBox>
 
-    <!-- GAME OVER POP-UP -->
-    <bottom>
-        <Group fx:id="groupNotification">
-            <VBox alignment="CENTER">
-                <GameOverPanel fx:id="gameOverPanel" styleClass="gameOverStyle"/>
-            </VBox>
-        </Group>
-    </bottom>
+                    <!-- SCORE BOX -->
+                    <VBox spacing="5" alignment="TOP_CENTER" styleClass="infoBox">
+                        <Label text="SCORE" styleClass="panelTitle"/>
+                        <Label fx:id="bindScore" text="0" styleClass="panelValue"/>
+                    </VBox>
+
+                    <!-- CLEARED ROWS BOX -->
+                    <VBox spacing="5" alignment="TOP_CENTER" styleClass="infoBox">
+                        <Label text="CLEARED ROWS" styleClass="panelTitle"/>
+                        <Label fx:id="clearedRows" text="0" styleClass="panelValue" wrapText="true" alignment="CENTER"/>
+                    </VBox>
+                </VBox>
+            </HBox>
+        </center>
+    </BorderPane>
+
+    <PauseMenu fx:id="pauseMenu"/>
+
+    <GameOverPanel fx:id="gameOverPanel"/>
+
     <stylesheets>
         <URL value="@window_style.css"/>
     </stylesheets>
-</BorderPane>
+</StackPane>

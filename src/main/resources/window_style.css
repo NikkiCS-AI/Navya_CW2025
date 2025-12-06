@@ -1,86 +1,103 @@
-/*.root {*/
-/*    -fx-background-image: url("background_image.png");*/
-/*    -fx-background-size: cover;*/
-/*    -fx-background-repeat: no-repeat;*/
-
-/*    !* Add a soft overlay *!*/
-/*    -fx-background-color: rgb(41, 8, 83);*/
-/*    -fx-background-blend-mode: overlay;*/
-/*}*/
-
-
-.gameBoard {
-    -fx-border-color: #290853;
-    -fx-border-width: 2px;
-    -fx-border-radius: 5px;
-    -fx-padding: 2px;
-    -fx-effect: dropshadow(gaussian, rgba(120, 60, 200, 0.7), 28, 0.3, 0, 0);
-
-    /* iPad Gradient Background */
-    -fx-background-color: linear-gradient(#4a4278 0%, #2d256a 25%, #3a3175 75%, #5a5285 100%),
-    linear-gradient(#15052a, #2d256a),
-    linear-gradient(#3a3175 0%, #4a4278 20%, #3a3175 80%, #2d256a 100%),
-    linear-gradient(#3a3175 0%, #35316a 20%, #2d256a 80%, #3a3175 100%),
-    linear-gradient(#3a3175 0%, #2d256a 50%, #35316a 51%, #3a3175 100%);
-    -fx-background-insets: 0, 1, 4, 5, 6;
-    -fx-background-radius: 9, 8, 5, 4, 3;
-}
-
-
-.ipad-dark-grey {
-    -fx-background-color: rgba(20, 20, 35, 0.7);
-    -fx-background-radius: 12;
-    -fx-padding: 12;
-
-    -fx-font-family: "Let's go Digital";
-    -fx-font-size: 22px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #e6e3ff;
-
-    /* Soft outer glow */
-    -fx-effect: dropshadow(gaussian, rgba(160, 140, 255, 0.6), 15, 0.2, 0, 0);
-}
-
-
-.ipad-dark-grey {
-    -fx-background-color: linear-gradient(#4a4278 0%, #2d256a 25%, #3a3175 75%, #5a5285 100%),
-    linear-gradient(#15052a, #2d256a),
-    linear-gradient(#3a3175 0%, #4a4278 20%, #3a3175 80%, #2d256a 100%),
-    linear-gradient(#3a3175 0%, #35316a 20%, #2d256a 80%, #3a3175 100%),
-    linear-gradient(#3a3175 0%, #2d256a 50%, #35316a 51%, #3a3175 100%);
-    -fx-background-insets: 0, 1, 4, 5, 6;
-    -fx-background-radius: 9, 8, 5, 4, 3;
-    -fx-padding: 8;
-    /*-fx-font-family: "Helvetica";*/
-    -fx-font-family: "Let's go Digital";
-    -fx-font-size: 22px;
-    -fx-font-weight: bold;
-    -fx-text-fill: white;
-    -fx-effect: dropshadow(gaussian, rgba(160, 140, 255, 0.6), 15, 0.2, 0, 0);
-}
-
-
-
-.brick-common {
-    -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.4), 20, 0.3, 0, 0);
-    -fx-stroke: rgba(255, 255, 255, 0.1);
-    -fx-stroke-width: 0.5px;
-    -fx-background-radius: 6px; /* Added to match iPad styling */
-}
-
-
-.gameOverStyle {
-    -fx-font-family: "Let's go Digital";
-    -fx-font-size: 48;
-    -fx-background-color: red;
-}
-
 .root {
     -fx-background-color: linear-gradient(to bottom, #0d0024, #19003a, #23004f);
     -fx-background-size: cover;
+    -fx-font-family: "Let's go Digital";
 }
 
-/* Game Board Border */
+StackPane {
+    -fx-pref-width: 100%;
+    -fx-pref-height: 100%;
+}
+
+/* ===== UNIFIED BUTTON STYLES ===== */
+.unified-button {
+    -fx-font-family: "Let's go Digital";
+    -fx-font-size: 20px;
+    -fx-text-fill: #ffffff;
+    -fx-background-color: linear-gradient(to bottom, #8a2be2 0%, #4b0082 100%);
+    -fx-background-radius: 25px;
+    -fx-padding: 12px 30px;
+    -fx-min-width: 180px;
+    -fx-effect: dropshadow(gaussian, rgba(138, 43, 226, 0.8), 15, 0.5, 0, 4);
+    -fx-cursor: hand;
+    -fx-border-color: #d8bfd8;
+    -fx-border-width: 2px;
+    -fx-border-radius: 25px;
+}
+
+.unified-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #9b30ff 0%, #5a0099 100%);
+    -fx-effect: dropshadow(gaussian, rgba(155, 48, 255, 0.9), 20, 0.6, 0, 6);
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-transition: all 0.2s;
+    -fx-text-fill: #ffff00;
+}
+
+.unified-button:pressed {
+    -fx-background-color: linear-gradient(to bottom, #7a1bd2 0%, #3a0066 100%);
+    -fx-effect: dropshadow(gaussian, rgba(122, 27, 210, 0.6), 10, 0.4, 0, 2);
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
+}
+
+.unified-button:disabled {
+    -fx-opacity: 0.5;
+    -fx-background-color: linear-gradient(to bottom, #666666 0%, #333333 100%);
+}
+
+/* ===== START MENU STYLES ===== */
+.startMenuContainer {
+    -fx-background-color: linear-gradient(to bottom, rgba(50, 11, 117, 0.75), #290853, #23004f);
+}
+
+.startMenuBox {
+    -fx-alignment: center;
+    -fx-spacing: 40px;
+}
+
+.startMenuTitle {
+    -fx-font-family: "Let's go Digital";
+    -fx-font-size: 72px;
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(160, 140, 255, 0.9), 25, 0.6, 0, 0);
+    -fx-effect: innershadow(gaussian, rgba(100, 60, 200, 0.8), 15, 0.5, 0, 2);
+}
+
+.startMenuButtonContainer {
+    -fx-alignment: center;
+    -fx-spacing: 15px;
+}
+
+/* Difficulty Selection */
+.difficultyContainer {
+    -fx-alignment: center;
+    -fx-spacing: 15px;
+    -fx-padding: 15px;
+    -fx-background-color: rgba(40, 0, 80, 0.5);
+    -fx-background-radius: 15px;
+    -fx-border-color: #9370db;
+    -fx-border-width: 2px;
+    -fx-border-radius: 15px;
+}
+
+.difficultyLabel {
+    -fx-font-size: 24px;
+    -fx-text-fill: #d8bfd8;
+    -fx-effect: dropshadow(gaussian, rgba(147, 112, 219, 0.7), 10, 0.4, 0, 0);
+}
+
+.difficultyButtons {
+    -fx-spacing: 10px;
+    -fx-alignment: center;
+}
+
+/* ===== GAME SCREEN STYLES ===== */
+#gameScreen {
+    -fx-background-color: linear-gradient(to bottom, #0d0024, #19003a);
+}
+
+/* Game Board */
 .gameBoard {
     -fx-border-color: #290853;
     -fx-border-width: 2px;
@@ -88,7 +105,7 @@
     -fx-padding: 2px;
     -fx-effect: dropshadow(gaussian, rgba(180,120,255,0.7), 28, 0.3, 0, 0);
 
-    /* iPad Gradient Background */
+    /* iPad Gradient Background - Original purple styling */
     -fx-background-color: linear-gradient(#4a4278 0%, #2d256a 25%, #3a3175 75%, #5a5285 100%),
     linear-gradient(#15052a, #2d256a),
     linear-gradient(#3a3175 0%, #4a4278 20%, #3a3175 80%, #2d256a 100%),
@@ -97,6 +114,7 @@
     -fx-background-insets: 0, 1, 4, 5, 6;
     -fx-background-radius: 9, 8, 5, 4, 3;
 }
+
 /* Sidebar Container */
 .sideBar {
     -fx-min-width: 170;
@@ -141,7 +159,7 @@
     -fx-padding: 5;
 }
 
-/* Pause button */
+/* Pause button in top bar */
 .pauseButton {
     -fx-font-family: "Let's go Digital";
     -fx-font-size: 14;
@@ -149,9 +167,106 @@
     -fx-background-color: rgba(130, 0, 255, 0.4);
     -fx-background-radius: 8;
     -fx-effect: dropshadow(gaussian, rgba(150,0,255,0.5), 18, 0.3, 0, 0);
+    -fx-cursor: hand;
 }
 
-/* Style for empty cells in the grid */
+.pauseButton:hover {
+    -fx-background-color: rgba(150, 20, 275, 0.5);
+}
+
+.pauseButton:pressed {
+    -fx-background-color: rgba(110, 0, 235, 0.3);
+}
+
+/* ===== PAUSE MENU STYLES ===== */
+.pauseMenuContainer {
+    -fx-alignment: center;
+    -fx-background-color: rgba(0, 0, 0, 0.7);
+}
+
+.pauseMenuBackground {
+    -fx-fill: rgba(40, 0, 80, 0.9);
+    -fx-stroke: #8a2be2;
+    -fx-stroke-width: 3px;
+    -fx-arc-width: 20;
+    -fx-arc-height: 20;
+    -fx-effect: dropshadow(gaussian, rgba(138, 43, 226, 0.8), 20, 0.6, 0, 0);
+}
+
+.pauseMenuBox {
+    -fx-alignment: center;
+    -fx-spacing: 25px;
+    -fx-max-width: 300px;
+    -fx-max-height: 250px;
+    -fx-padding: 20px;
+}
+
+.pauseMenuTitle {
+    -fx-font-size: 36px;
+    -fx-text-fill: #ff00ff;
+    -fx-effect: dropshadow(gaussian, rgba(255, 0, 255, 0.9), 15, 0.7, 0, 0),
+    innershadow(gaussian, rgba(138, 43, 226, 0.8), 8, 0.5, 0, 1);
+    -fx-font-weight: bold;
+}
+
+/* ===== GAME OVER STYLES ===== */
+.gameOverPanel {
+    -fx-alignment: center;
+    -fx-background-color: rgba(0, 0, 0, 0.7);
+}
+
+.gameOverTitle {
+    -fx-font-family: "Let's go Digital";
+    -fx-font-size: 48px;
+    -fx-text-fill: #bd111e;
+    -fx-effect: dropshadow(gaussian, rgb(83, 8, 8), 20, 0.8, 0, 0),
+    innershadow(gaussian, rgba(255, 100, 100, 0.8), 10, 0.6, 0, 1);
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 10px 0;
+}
+
+.gameOverScore {
+    -fx-font-family: "Let's go Digital";
+    -fx-font-size: 28px;
+    -fx-text-fill: #ffff00;
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 0, 0.8), 10, 0.5, 0, 0);
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 20px 0;
+}
+
+/* Animation for game over title */
+.gameOverTitle {
+    -fx-animation: pulse 1.5s ease-in-out infinite;
+
+}
+
+@keyframes pulse {
+    0% {
+        -fx-scale-x: 1;
+        -fx-scale-y: 1;
+        -fx-effect: dropshadow(gaussian, rgba(255, 0, 255, 1), 20, 0.8, 0, 0);
+    }
+    50% {
+        -fx-scale-x: 1.05;
+        -fx-scale-y: 1.05;
+        -fx-effect: dropshadow(gaussian, rgba(255, 0, 255, 1), 25, 1.0, 0, 0);
+    }
+    100% {
+        -fx-scale-x: 1;
+        -fx-scale-y: 1;
+        -fx-effect: dropshadow(gaussian, rgba(255, 0, 255, 1), 20, 0.8, 0, 0);
+    }
+}
+
+/* ===== BRICK STYLES ===== */
+.brick-common {
+    -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.4), 20, 0.3, 0, 0);
+    -fx-stroke: rgba(255, 255, 255, 0.1);
+    -fx-stroke-width: 0.5px;
+    -fx-background-radius: 6px;
+}
+
+/* ===== GRID STYLES ===== */
 #gamePanel .pane {
     -fx-background-color: rgba(20, 20, 35, 0.3);
     -fx-border-color: rgba(160, 140, 255, 0.2);

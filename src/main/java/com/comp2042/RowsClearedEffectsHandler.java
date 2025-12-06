@@ -29,7 +29,7 @@ public class RowsClearedEffectsHandler {
 
         // Update label on UI thread
         runOnUi(() ->
-                clearedRowsLabel.setText("Cleared Rows: " + gameState.getClearedRowCount())
+                clearedRowsLabel.setText(String.valueOf(gameState.getClearedRowCount()))
         );
     }
 

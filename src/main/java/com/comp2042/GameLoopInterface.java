@@ -5,6 +5,8 @@ public interface GameLoopInterface {
     void pause();
     void resume();
     void stop();
+    void setSpeed(double speedMultiplier);
+    double getSpeed();
     boolean isRunning();
 }
 

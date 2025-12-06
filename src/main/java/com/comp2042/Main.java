@@ -26,7 +26,6 @@ public class Main extends Application {
         primaryStage.show();
 
 
-        c.initGame();  // Continue your game setup
     }
 
 
