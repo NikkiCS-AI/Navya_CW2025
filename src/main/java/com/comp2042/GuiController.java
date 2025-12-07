@@ -463,4 +463,25 @@ public class GuiController implements Initializable, GameMovementInterface {
     public void newGame() {
         restartGame();
     }
+
+    @Override
+    /** Perform hard drop action */
+    public void hardDrop() {
+        System.out.println("Hard drop triggered from GUI");
+
+        if (gameState.isPaused() || gameState.isGameOver()) {
+            System.out.println("Game is paused or over - ignoring hard drop");
+            return;
+        }
+
+        // Call hardDrop on the game controller
+        if (eventListener != null) {
+            eventListener.onHardDropEvent();
+        } else {
+            System.out.println("eventListener is null");
+        }
+
+        // Request focus back to game panel
+        gamePanel.requestFocus();
+    }
 }

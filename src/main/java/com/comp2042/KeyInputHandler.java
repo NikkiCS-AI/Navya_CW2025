@@ -31,6 +31,9 @@ public class KeyInputHandler {
             case DOWN:
                 case S:
                     gameMovement.softDrop(); break;
+
+            case SPACE:
+                gameMovement.hardDrop(); break;
         }
     }
 

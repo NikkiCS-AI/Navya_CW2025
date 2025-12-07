@@ -18,4 +18,7 @@ public interface InputEventListener {
     void onHoldEvent(); /**holds the brick*/
 
     int[][] getHoldShape(); /** gets the hold shape*/
+
+    /** handles hard drop */
+    void onHardDropEvent();
 }

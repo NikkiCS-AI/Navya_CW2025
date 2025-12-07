@@ -339,4 +339,38 @@ public class SimpleBoard implements Board {
         return false;
     }
 
+    @Override
+    /** Perform a hard drop - instantly move to lowest possible position */
+    public int hardDrop() {
+        System.out.println("\n=== Performing Hard Drop ===");
+
+        int dropCount = 0;
+        int[][] brickShape = brickRotator.getCurrentShape();
+
+        // Calculate how far we can drop
+        while (canMoveTo(currentOffset.x, currentOffset.y + dropCount + 1, brickShape)) {
+            dropCount++;
+        }
+
+        if (dropCount > 0) {
+            System.out.println("Hard dropping " + dropCount + " rows");
+
+            // Move to final position
+            currentOffset.translate(0, dropCount);
+
+            // Merge immediately
+            mergeBrickToBackground();
+
+            // Return distance for scoring
+            return dropCount;
+        }
+
+        return 0;
+    }
+
+    /** Check if brick can move to specified position */
+    private boolean canMoveTo(int x, int y, int[][] brickShape) {
+        return !MatrixOperations.intersect(currentGameMatrix, brickShape, x, y);
+    }
+
 }

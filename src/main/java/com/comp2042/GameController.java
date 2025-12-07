@@ -195,6 +195,7 @@ public class GameController implements InputEventListener {
         return new int[0][];
     }
 
+
     /** Internal method to handle the hold/swap logic */
     private void handleHold() {
         // 1. Get the brick currently falling on the board
@@ -253,5 +254,57 @@ public class GameController implements InputEventListener {
         return gameOver;
     }
 
+    /** Performs hard drop - instantly drops the current brick to the bottom */
+    @Override
+    public void onHardDropEvent() {
+        if (gameOver) {
+            System.out.println("Game is over - ignoring hard drop");
+            return;
+        }
 
+        System.out.println("\n=== Hard Drop ===");
+
+        // Perform hard drop through board
+        int dropDistance = board.hardDrop();
+
+        if (dropDistance > 0) {
+            // Award points (common: 2 points per row instantly dropped)
+            board.getScore().add(dropDistance * 2);
+
+            // Clear any completed lines
+            ClearRow clearRow = board.clearRows();
+
+            if (clearRow.getLinesRemoved() > 0) {
+                System.out.println("Cleared " + clearRow.getLinesRemoved() + " rows after hard drop");
+                board.getScore().add(clearRow.getScoreBonus());
+            }
+
+            // Reset hold availability after drop
+            hold.resetHoldAvailability();
+
+            // Check for game over after hard drop
+            if (((SimpleBoard) board).checkGameOver()) {
+                System.out.println("GAME OVER: Bricks reached the spawn area after hard drop!");
+                gameOver = true;
+                viewGuiController.gameOver();
+                return;
+            }
+
+            // Create new brick
+            boolean isGameOver = board.createNewBrick();
+            if (isGameOver) {
+                System.out.println("GAME OVER after hard drop!");
+                gameOver = true;
+                viewGuiController.gameOver();
+                return;
+            }
+
+            // Update GUI
+            viewGuiController.refreshGameBackground(board.getBoardMatrix());
+            viewGuiController.refreshBrick(board.getViewData());
+            updateNextBrickPreview();
+
+            System.out.println("Hard drop completed successfully");
+        }
+    }
 }

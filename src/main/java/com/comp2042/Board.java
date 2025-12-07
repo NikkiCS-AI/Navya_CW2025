@@ -46,4 +46,7 @@ public interface Board {
     /** resets the game state for a new game */
     void newGame();
 
+    /** performs hard drop and returns number of rows dropped */
+    int hardDrop();
+
 }

@@ -8,6 +8,9 @@ public interface GameMovementInterface {
     /** moves the current piece down by one unit */
     void softDrop();
 
+    /** moves the current piece instantly to the bottom */
+    void hardDrop();
+
     /** moves the current piece left by one unit */
     void moveLeft();
 
