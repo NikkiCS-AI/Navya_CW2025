@@ -6,6 +6,10 @@ import com.comp2042.logic.bricks.RandomBrickGenerator;
 
 import java.awt.*;
 
+/**
+ A simple implementation of the Board interface for a Tetris-like game.
+ Manages the game board state, brick movements, rotations, and scoring.
+*/
 public class SimpleBoard implements Board {
     private final int width;
     private final int height;
@@ -18,6 +22,11 @@ public class SimpleBoard implements Board {
     // Use same constants as renderers
     private static final int VISIBLE_START_ROW = GridRenderer.VISIBLE_START_ROW;
 
+    /** Constructs a SimpleBoard with specified width and height.
+     *
+     * @param width  the width of the board
+     * @param height the height of the board
+     */
     public SimpleBoard(int width, int height) {
         this.width = width;
         this.height = height;
@@ -46,12 +55,16 @@ public class SimpleBoard implements Board {
     }
 
     @Override
+    /** Moves the current brick down by one row if possible.
+     *
+     * @return true if the brick was moved down, false if it cannot move further
+     */
     public boolean moveBrickDown() {
         int[][] brickShape = brickRotator.getCurrentShape();
         Point p = new Point(currentOffset);
         p.translate(0, 1);
 
-        Debugger.debugBrickMovement(brickShape, currentOffset, p.y, currentGameMatrix);
+
 
         // Check if any brick cell would go below the matrix
         for (int i = 0; i < brickShape.length; i++) {
@@ -59,11 +72,7 @@ public class SimpleBoard implements Board {
                 if (brickShape[i][j] != 0) {
                     int targetY = p.y + i;
 
-                    // Stop if ANY brick cell would be at or below the bottom row
-                    if (targetY >= currentGameMatrix.length) {
-                        Debugger.log("STOPPING: Brick cell would go below matrix at Y=" + targetY);
-                        return false;
-                    }
+
                 }
             }
         }
@@ -72,18 +81,21 @@ public class SimpleBoard implements Board {
         boolean conflict = MatrixOperations.intersect(currentGameMatrix, brickShape,
                 (int) p.getX(), (int) p.getY());
 
-        Debugger.log("Collision check: " + conflict);
-
         if (conflict) {
+            // Can't move - there's a collision
             return false;
         } else {
+            // Can move - update position
             currentOffset = p;
-            Debugger.log("Moved to: " + currentOffset);
             return true;
         }
     }
 
     @Override
+    /** Moves the current brick left by one column if possible.
+     *
+     * @return true if the brick was moved left, false if it cannot move further
+     */
     public boolean moveBrickLeft() {
         int[][] currentMatrix = MatrixOperations.copy(currentGameMatrix);
         Point p = new Point(currentOffset);
@@ -99,6 +111,10 @@ public class SimpleBoard implements Board {
     }
 
     @Override
+    /** Moves the current brick right by one column if possible.
+     *
+     * @return true if the brick was moved right, false if it cannot move further
+     */
     public boolean moveBrickRight() {
         int[][] currentMatrix = MatrixOperations.copy(currentGameMatrix);
         Point p = new Point(currentOffset);
@@ -114,6 +130,10 @@ public class SimpleBoard implements Board {
     }
 
     @Override
+    /** Rotates the current brick to the right if possible.
+     *
+     * @return true if the brick was rotated, false if rotation is not possible
+     */
     public boolean rotateLeftBrick() {
         int[][] currentMatrix = MatrixOperations.copy(currentGameMatrix);
         NextShapeInfo nextShape = brickRotator.getNextShape();
@@ -128,6 +148,10 @@ public class SimpleBoard implements Board {
     }
 
     @Override
+    /** Creates a new brick at the top of the board.
+     *
+     * @return true if the game is over (brick collides at spawn), false otherwise
+     */
     public boolean createNewBrick() {
         Brick currentBrick = brickGenerator.getBrick();
         brickRotator.setBrick(currentBrick);
@@ -190,6 +214,9 @@ public class SimpleBoard implements Board {
     }
 
     @Override
+    /** Merges the current brick into the background matrix.
+     * Updates the game board state to include the brick's cells.
+     */
     public void mergeBrickToBackground() {
         System.out.println("\n=== mergeBrickToBackground ===");
         int[][] brickShape = brickRotator.getCurrentShape();
@@ -205,21 +232,31 @@ public class SimpleBoard implements Board {
         currentGameMatrix = MatrixOperations.merge(currentGameMatrix, brickShape,
                 (int) currentOffset.getX(), (int) currentOffset.getY());
 
-        // DEBUG: Show board state after merge
-        debugMatrix();
     }
 
+    /** Override to set the current brick directly (for testing/debugging).
+     *
+     * @param b the Brick to set as the current brick
+     */
     public void setCurrentBrick(Brick b) {
         brickRotator.setBrick(b);
         currentOffset = new Point(4, 0);
     }
 
     @Override
+    /** Returns the current game board matrix.
+     *
+     * @return the 2D array representing the game board state
+     */
     public int[][] getBoardMatrix() {
         return currentGameMatrix;
     }
 
     @Override
+    /** Returns the current view data for rendering.
+     *
+     * @return the ViewData object containing current brick shape, position, and next brick preview
+     */
     public ViewData getViewData() {
         Brick nextBrick = brickGenerator.getNextBrick();
         int[][] nextBrickData = null;
@@ -233,26 +270,33 @@ public class SimpleBoard implements Board {
     }
 
     @Override
+    /** Clears completed rows from the game board.
+     *
+     * @return a ClearRow object containing the number of lines removed and the new matrix state
+     */
     public ClearRow clearRows() {
         System.out.println("\n=== clearRows ===");
         ClearRow clearRow = MatrixOperations.checkRemoving(currentGameMatrix);
         System.out.println("Cleared " + clearRow.getLinesRemoved() + " rows");
         currentGameMatrix = clearRow.getNewMatrix();
 
-        // DEBUG: Show board after clearing
-        if (clearRow.getLinesRemoved() > 0) {
-            debugMatrix();
-        }
 
         return clearRow;
     }
 
     @Override
+    /** Returns the current score.
+     *
+     * @return the Score object representing the current score
+     */
     public Score getScore() {
         return score;
     }
 
     @Override
+    /** Starts a new game by resetting the board and score.
+     * Clears the game matrix and creates a new brick.
+     */
     public void newGame() {
         System.out.println("\n=== Starting New Game ===");
         // Clear the entire board
@@ -266,16 +310,21 @@ public class SimpleBoard implements Board {
         createNewBrick();
     }
 
+    /** Returns the current brick.
+     *
+     * @return the current Brick object
+     */
     public Brick getCurrentBrick() {
         return brickRotator.getBrick();
     }
 
+    /** Debug method to print current brick shape and position */
     public void debugCurrentBrick() {
         int[][] brickShape = brickRotator.getCurrentShape();
-        Debugger.debugBrickPosition(brickShape, currentOffset, currentGameMatrix);
+
     }
 
-    // Helper method to check if game should end (check spawn area rows 0-3)
+    /** Helper method to check if game should end (check spawn area rows 0-3) */
     public boolean checkGameOver() {
         // Check if any cell in the top few rows (spawn area) is filled
         for (int r = 0; r < 4; r++) { // Check rows 0-3 (spawn area)
@@ -290,16 +339,4 @@ public class SimpleBoard implements Board {
         return false;
     }
 
-    // Debug method to show matrix state
-    public void debugMatrix() {
-        System.out.println("=== BOARD MATRIX (first 10 rows) ===");
-        for (int r = 0; r < Math.min(10, currentGameMatrix.length); r++) {
-            System.out.print("Row " + r + ": ");
-            for (int c = 0; c < currentGameMatrix[r].length; c++) {
-                System.out.print(currentGameMatrix[r][c] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println("=== END BOARD DEBUG ===\n");
-    }
 }

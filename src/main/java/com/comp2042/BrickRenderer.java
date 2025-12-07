@@ -3,6 +3,14 @@ package com.comp2042;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
 
+/**
+ *
+ * <p>This class is responsible for rendering Tetris bricks onto the game grid,
+ * preview panel, and hold panel. It manages the visual representation of the
+ * current falling brick, the next brick preview, and the held brick.</p>
+ */
+
+/** Handles rendering of Tetris bricks in the game grid, preview panel, and hold panel. */
 public class BrickRenderer {
     private static final int PREVIEW_SIZE = 15;
     private static final int GAME_SIZE = 20;
@@ -11,6 +19,7 @@ public class BrickRenderer {
     private static final int VISIBLE_ROWS = GridRenderer.VISIBLE_ROWS;
     private static final int VISIBLE_START_ROW = GridRenderer.VISIBLE_START_ROW;
 
+    /** Refreshes the current falling brick on the game panel. */
     public void refreshBrick(ViewData brick,
                              Rectangle[][] brickRects,
                              GridPane brickPanel,
@@ -29,6 +38,7 @@ public class BrickRenderer {
         brickPanel.setVisible(false);
     }
 
+    /** Clears the old brick rectangles from the game panel. */
     private void clearOldBrick(GridPane gamePanel, Rectangle[][] brickRects) {
         if (brickRects == null) return;
 
@@ -45,6 +55,7 @@ public class BrickRenderer {
         }
     }
 
+    /** Adds the new brick rectangles to the game panel at the correct positions. */
     private void addBrickToGamePanel(ViewData brick, Rectangle[][] brickRects, GridPane gamePanel) {
         int[][] brickData = brick.getBrickData();
         int startX = brick.getxPosition();
@@ -85,6 +96,7 @@ public class BrickRenderer {
         }
     }
 
+    /** Refreshes the game background based on the current board state. */
     public void refreshGameBackground(int[][] board, Rectangle[][] matrix) {
         if (board == null || matrix == null) return;
 
@@ -111,6 +123,7 @@ public class BrickRenderer {
         }
     }
 
+    /** Updates the preview panel with the next brick. */
     public static void updatePreviewPanel(GridPane previewPanel, ViewData nextBrick) {
         if (previewPanel == null || nextBrick == null) return;
 
@@ -128,6 +141,7 @@ public class BrickRenderer {
         }
     }
 
+    /** Updates the hold panel with the held brick. */
     public void updateHoldPanel(GridPane holdPanel, int[][] holdShape) {
         if (holdPanel == null || holdShape == null) return;
 
@@ -143,6 +157,7 @@ public class BrickRenderer {
         }
     }
 
+    /** Creates a rectangle for a brick cell with specified size and color. */
     private static Rectangle createBrickRectangle(int size, int colorValue) {
         Rectangle rect = new Rectangle(size, size);
         rect.setFill(BrickColour.getColour(colorValue));
@@ -152,6 +167,7 @@ public class BrickRenderer {
         return rect;
     }
 
+    /** Sets the color of a rectangle based on the color value. */
     private static void setRectColor(int colorValue, Rectangle rectangle) {
         if (rectangle == null) return;
 

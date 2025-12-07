@@ -21,10 +21,6 @@ class NotificationPanelTest {
         assertTrue(true);
     }
 
-//    @Test
-//    void shapeProperty() {
-//        assertTrue(true);
-//    }
 
     @Test
     void setScaleShape() {
@@ -35,10 +31,6 @@ class NotificationPanelTest {
     void isScaleShape() {
         assertTrue(true);
     }
-
-//    @Test
-//    void scaleShapeProperty() {
-//    }
 
     @Test
     void addEventHandler() {

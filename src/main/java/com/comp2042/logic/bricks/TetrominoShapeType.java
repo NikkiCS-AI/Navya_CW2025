@@ -2,6 +2,11 @@ package com.comp2042.logic.bricks;
 
 import java.util.List;
 
+/**
+ * Enum representing the different types of Tetromino shapes
+ * along with their rotation states.
+ */
+
 public enum TetrominoShapeType {
 
     I(List.of(
@@ -148,10 +153,20 @@ public enum TetrominoShapeType {
 
     private final List<int[][]> rotations;
 
+    /**
+     * Constructor for TetrominoShapeType enum.
+     *
+     * @param rotations List of rotation states for the tetromino shape.
+     */
     TetrominoShapeType(List<int[][]> rotations) {
         this.rotations = rotations;
     }
 
+    /**
+     * Get the list of rotation states for the tetromino shape.
+     *
+     * @return List of 2D arrays representing rotation states.
+     */
     public List<int[][]> getRotations() {
         return rotations;
     }

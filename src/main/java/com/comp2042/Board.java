@@ -1,44 +1,49 @@
 package com.comp2042;
 import com.comp2042.logic.bricks.Brick;
 
+/**
+ *
+ * <p>This interface provides methods for movement and operations on the game board.</p>
+ */
+
 public interface Board {
-    // returns the current brick (for hold / swap operations)
+    /** returns the current brick (for hold / swap operations) */
     Brick getCurrentBrick();
 
-    // set the current falling brick (used by hold/swap)
+    /** set the current falling brick (used by hold/swap) */
     void setCurrentBrick(Brick brick);
 
-    // returns if the brick was moved down successfully
+    /** returns if the brick was moved down successfully */
     boolean moveBrickDown();
 
-    // returns if the brick was moved left successfully
+    /** returns if the brick was moved left successfully */
     boolean moveBrickLeft();
 
-    // returns if the brick was moved right successfully
+    /** returns if the brick was moved right successfully */
     boolean moveBrickRight();
 
-    // returns if the brick was rotated left successfully
+    /** returns if the brick was rotated left successfully */
     boolean rotateLeftBrick();
 
-    // returns if the new brick was created successfully
+    /** returns if the new brick was created successfully */
     boolean createNewBrick();
 
-    // returns all the placed bricks
+    /** returns all the placed bricks */
     int[][] getBoardMatrix();
 
-    // returns the current brick
+    /** returns the current brick */
     ViewData getViewData();
 
-    // merges the current brick to the background
+    /** merges the current brick to the background */
     void mergeBrickToBackground();
 
-    //  removes full rows and returns the number of cleared rows
+    /**  removes full rows and returns the number of cleared rows */
     ClearRow clearRows();
 
-    // returns the current score
+    /** returns the current score */
     Score getScore();
 
-    // resets the game state for a new game
+    /** resets the game state for a new game */
     void newGame();
 
 }

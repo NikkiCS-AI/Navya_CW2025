@@ -8,6 +8,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * PauseMenu represents a pause menu overlay in the game.
+ * It contains buttons for resuming the game, starting a new game, and quitting to the main menu.
+ */
+
 public class PauseMenu extends StackPane {
 
     private final VBox menuBox;
@@ -15,6 +20,8 @@ public class PauseMenu extends StackPane {
     private final Button resumeButton;
     private final Button quitButton;
 
+    /** Constructs a PauseMenu with buttons and styling.
+     */
     public PauseMenu() {
         this.getStyleClass().add("pauseMenuContainer");
         this.setAlignment(Pos.CENTER);
@@ -45,23 +52,36 @@ public class PauseMenu extends StackPane {
         this.getChildren().addAll(bg, menuBox);
     }
 
+    /** Getter for the resume button.
+     * @return the resume button
+     */
     public Button getResumeButton() {
         return resumeButton;
     }
 
+    /** Getter for the new game button.
+     * @return the new game button
+     */
     public Button getNewGameButton() {
         return newGameButton;
     }
 
+    /** Getter for the quit button.
+     * @return the quit button
+     */
     public Button getQuitButton() {
         return quitButton;
     }
 
+    /** Shows the pause menu.
+     */
     public void showMenu() {
         this.setVisible(true);
         this.setManaged(true);
     }
 
+    /** Hides the pause menu.
+     */
     public void hideMenu() {
         this.setVisible(false);
         this.setManaged(false);

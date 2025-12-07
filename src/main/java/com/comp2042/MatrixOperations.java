@@ -6,15 +6,21 @@ import java.util.Deque;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ Utility class providing static methods for matrix operations
+ such as collision detection, merging, copying, and row clearing
+ in a Tetris-like game.
+*/
+
 public class MatrixOperations {
 
 
-    //We don't want to instantiate this utility class
+    /** Private constructor to prevent instantiation of this utility class */
     private MatrixOperations(){
 
     }
 
-    //checks if bricks collide with filled cells or board boundaries
+    /** checks if bricks collide with filled cells or board boundaries */
     public static boolean intersect(final int[][] matrix, final int[][] brick, int x, int y) {
         for (int i = 0; i < brick.length; i++) { // i = rows in brick
             for (int j = 0; j < brick[i].length; j++) { // j = columns in brick
@@ -48,16 +54,8 @@ public class MatrixOperations {
         return false;
     }
 
-//    //checks if the target position is out of the board bounds
-//    private static boolean checkOutOfBound(int[][] matrix, int targetX, int targetY) {
-//        boolean returnValue = true;
-//        if (targetX >= 0 && targetY < matrix.length && targetX < matrix[targetY].length) {
-//            returnValue = false;
-//        }
-//        return returnValue;
-//    }
 
-    //creates a deep copy of a 2D integer array to prevent shared references and avoid modification side effects
+    /** creates a deep copy of a 2D integer array to prevent shared references and avoid modification side effects */
     public static int[][] copy(int[][] original) {
         int[][] myInt = new int[original.length][];
         for (int i = 0; i < original.length; i++) {
@@ -69,7 +67,7 @@ public class MatrixOperations {
         return myInt;
     }
 
-    //permanently adds birck to board once it has landed
+    /** permanently adds brick to board once it has landed */
     public static int[][] merge(int[][] filledFields, int[][] brick, int x, int y) {
         int[][] copy = copy(filledFields);
 
@@ -90,7 +88,7 @@ public class MatrixOperations {
         return copy;
     }
 
-    //checks and removes filled rows from the board and returns updated board and score bonus
+    /** checks and removes filled rows from the board and returns updated board and score bonus */
     public static ClearRow checkRemoving(final int[][] matrix) {
         int[][] tmp = new int[matrix.length][matrix[0].length];
         Deque<int[]> newRows = new ArrayDeque<>();
@@ -125,7 +123,7 @@ public class MatrixOperations {
         return new ClearRow(clearedRows.size(), tmp, scoreBonus);
     }
 
-    //creates a deep copy of a list of 2D integer arrays to prevent shared references and avoid modification side effects
+    /** creates a deep copy of a list of 2D integer arrays to prevent shared references and avoid modification side effects */
     public static List<int[][]> deepCopyList(List<int[][]> list){
         return list.stream().map(MatrixOperations::copy).collect(Collectors.toList());
     }

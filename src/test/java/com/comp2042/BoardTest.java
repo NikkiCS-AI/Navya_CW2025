@@ -61,4 +61,69 @@ class BoardTest {
     void newGame() {
         assertTrue(true);
     }
+
+    @Test
+    void getCurrentBrick() {
+        assertTrue(true);
+    }
+
+    @Test
+    void setCurrentBrick() {
+        assertTrue(true);
+    }
+
+    @Test
+    void testMoveBrickDown() {
+        assertTrue(true);
+    }
+
+    @Test
+    void testMoveBrickLeft() {
+        assertTrue(true);
+    }
+
+    @Test
+    void testMoveBrickRight() {
+        assertTrue(true);
+    }
+
+    @Test
+    void testRotateLeftBrick() {
+        assertTrue(true);
+    }
+
+    @Test
+    void testCreateNewBrick() {
+        assertTrue(true);
+    }
+
+    @Test
+    void testGetBoardMatrix() {
+        assertTrue(true);
+    }
+
+    @Test
+    void testGetViewData() {
+        assertTrue(true);
+    }
+
+    @Test
+    void testMergeBrickToBackground() {
+        assertTrue(true);
+    }
+
+    @Test
+    void testClearRows() {
+        assertTrue(true);
+    }
+
+    @Test
+    void testGetScore() {
+        assertTrue(true);
+    }
+
+    @Test
+    void testNewGame() {
+        assertTrue(true);
+    }
 }

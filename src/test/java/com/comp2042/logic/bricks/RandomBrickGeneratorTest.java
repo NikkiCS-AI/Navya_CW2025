@@ -1,15 +1,15 @@
-package com.comp2042;
+package com.comp2042.logic.bricks;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class NextShapeInfoTest {
+class RandomBrickGeneratorTest {
     @Test
-    void getShape() {
+    void getBrick() {
         assertTrue(true);
     }
     @Test
-    void getPosition() {
+    void getNextBrick() {
         assertTrue(true);
     }
 }

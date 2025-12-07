@@ -3,13 +3,9 @@ package com.comp2042;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class NextShapeInfoTest {
+class GridRendererTest {
     @Test
-    void getShape() {
-        assertTrue(true);
-    }
-    @Test
-    void getPosition() {
+    void createGrid() {
         assertTrue(true);
     }
 }

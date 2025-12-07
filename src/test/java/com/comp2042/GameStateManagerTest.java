@@ -3,41 +3,49 @@ package com.comp2042;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class BrickRotatorTest {
+class GameStateManagerTest {
     @Test
-    void getNextShape() {
+    void isPaused() {
         assertTrue(true);
     }
     @Test
-    void getCurrentShape() {
+    void setPaused() {
         assertTrue(true);
     }
     @Test
-    void setCurrentShape() {
+    void pausedProperty() {
         assertTrue(true);
     }
     @Test
-    void setBrick() {
+    void isGameOver() {
         assertTrue(true);
     }
     @Test
-    void testGetNextShape() {
+    void setGameOver() {
         assertTrue(true);
     }
     @Test
-    void testGetCurrentShape() {
+    void gameOverProperty() {
         assertTrue(true);
     }
     @Test
-    void testSetCurrentShape() {
+    void getClearedRowCount() {
         assertTrue(true);
     }
     @Test
-    void testSetBrick() {
+    void clearedRowCountProperty() {
         assertTrue(true);
     }
     @Test
-    void getBrick() {
+    void addClearedRows() {
+        assertTrue(true);
+    }
+    @Test
+    void resetClearedRows() {
+        assertTrue(true);
+    }
+    @Test
+    void reset() {
         assertTrue(true);
     }
 }

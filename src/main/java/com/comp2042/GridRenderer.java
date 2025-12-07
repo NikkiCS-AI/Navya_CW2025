@@ -4,11 +4,27 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.GridPane;
 
+/**
+ * Responsible for creating and rendering the visible grid portion of the Tetris board.
+ * Adjusted to show only 20 visible rows starting from row index 4.
+ */
+
+/**
+ * Responsible for creating and rendering the visible grid portion of the Tetris board.
+ * Adjusted to show only 20 visible rows starting from row index 4.
+ */
 public class GridRenderer {
     public static final int BRICK_SIZE = 20;
     public static final int VISIBLE_ROWS = 20; // Changed from 22 to 20
     public static final int VISIBLE_START_ROW = 4; // Changed from 2 to 4
 
+    /**
+     * Creates the visible grid on the game panel.
+     *
+     * @param boardMatrix The full game board matrix.
+     * @param brick       The current brick data.
+     * @param controller  The GUI controller managing the game UI.
+     */
     public void createGrid(int[][] boardMatrix, ViewData brick, GuiController controller) {
         // Create display matrix for visible rows only
         controller.displayMatrix = new Rectangle[VISIBLE_ROWS][10];

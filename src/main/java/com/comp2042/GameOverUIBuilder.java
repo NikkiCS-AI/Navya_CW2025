@@ -6,17 +6,33 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
+/**
+ * GameOverUIBuilder is responsible for adding interactive buttons to the GameOverPanel.
+ * It provides functionality to start a new game or quit to the main menu.
+ */
+
 public class GameOverUIBuilder {
     private final GameOverPanel gameOverPanel;
     private final Runnable onNewGame;
     private final Runnable onQuit;
 
+    /**
+     * Constructs a GameOverUIBuilder with the specified GameOverPanel and button actions.
+     *
+     * @param panel     The GameOverPanel to which buttons will be added.
+     * @param onNewGame A Runnable to execute when the "New Game" button is clicked.
+     * @param onQuit    A Runnable to execute when the "Quit to Menu" button is clicked.
+     */
     public GameOverUIBuilder(GameOverPanel panel, Runnable onNewGame, Runnable onQuit) {
         this.gameOverPanel = panel;
         this.onNewGame = onNewGame;
         this.onQuit = onQuit;
     }
 
+    /**
+     * Adds "New Game" and "Quit to Menu" buttons to the GameOverPanel.
+     * The buttons are centered at the bottom of the panel.
+     */
     public void addGameOverButtons() {
         // Create buttons
         Button newGameBtn = new Button("New Game");

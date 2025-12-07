@@ -3,11 +3,16 @@ package com.comp2042;
 import com.comp2042.logic.bricks.Brick;
 import com.comp2042.logic.bricks.BrickGenerator;
 
+/**
+ * Manages the hold brick functionality in Tetris.
+ */
+
 public class HoldBrick {
-    private Brick heldBrick;        // The brick currently being held
-    private boolean isHeld;         // True if hold was used on this drop
+    private Brick heldBrick;        /** The brick currently being held */
+    private boolean isHeld;         /** True if hold was used on this drop */
     private final BrickGenerator generator;
 
+    /** Constructor initializing with a brick generator. */
     public HoldBrick(BrickGenerator generator) {
         this.generator = generator;
         this.heldBrick = null;

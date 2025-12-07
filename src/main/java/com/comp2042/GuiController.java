@@ -26,6 +26,11 @@ import javafx.scene.layout.HBox;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * GuiController is responsible for managing the GUI components of the Tetris game.
+ * It handles game initialization, user input, game state updates, and rendering.
+ */
+
 public class GuiController implements Initializable, GameMovementInterface {
     static final int BRICK_SIZE = 20;
 
@@ -68,6 +73,7 @@ public class GuiController implements Initializable, GameMovementInterface {
 
     private GameOverUIBuilder gameOverUIBuilder;
 
+    /** Constructor for GuiController */
     public GuiController() {
         this.gridRenderer = new GridRenderer();
         this.brickRenderer = new BrickRenderer();
@@ -79,6 +85,7 @@ public class GuiController implements Initializable, GameMovementInterface {
     private StartMenu.Difficulty currentDifficulty;
 
     @Override
+    /** Initialize the GUI controller */
     public void initialize(URL location, ResourceBundle resources) {
         startMenuScreen.setOnStartGame(this::startGame);
         startMenuScreen.setOnQuitGame(this::quitGame);
@@ -104,6 +111,7 @@ public class GuiController implements Initializable, GameMovementInterface {
         gameOverUIBuilder = new GameOverUIBuilder(gameOverPanel, this::restartGame, this::quitToMenu);
     }
 
+    /** Handle game over state */
     public void gameOver() {
         System.out.println("=== GAME OVER CALLED ===");
 
@@ -133,6 +141,7 @@ public class GuiController implements Initializable, GameMovementInterface {
         System.out.println("Game Over displayed with options.");
     }
 
+    /** Resume the game from pause */
     private void resumeGame() {
         System.out.println("Resuming game from pause menu...");
         pauseMenu.hideMenu();
@@ -146,6 +155,7 @@ public class GuiController implements Initializable, GameMovementInterface {
         gamePanel.requestFocus();
     }
 
+    /** Restart the game */
     private void restartGame() {
         System.out.println("Starting new game...");
         pauseMenu.hideMenu();
@@ -179,6 +189,7 @@ public class GuiController implements Initializable, GameMovementInterface {
         System.out.println("New game started successfully");
     }
 
+    /** Quit to main menu */
     private void quitToMenu() {
         System.out.println("\n=== QUIT TO MENU ===");
 
@@ -209,7 +220,7 @@ public class GuiController implements Initializable, GameMovementInterface {
         System.out.println("Game fully reset and controller nullified\n");
     }
 
-    // ADD THESE METHODS:
+    /** Start a fresh game */
     private void startGame() {
         System.out.println("\n=== STARTING FRESH GAME ===");
 
@@ -238,6 +249,7 @@ public class GuiController implements Initializable, GameMovementInterface {
         System.out.println("Fresh game initialized\n");
     }
 
+    /** Quit the game application */
     private void quitGame() {
         System.out.println("Quitting game from StartMenu...");
 
@@ -255,7 +267,8 @@ public class GuiController implements Initializable, GameMovementInterface {
         stage.close();
     }
 
-    private void clearGamePanels() {
+    /** Clear game panels and reset state */
+    void clearGamePanels() {
         // Clear the game panel
         gamePanel.getChildren().clear();
         brickPanel.getChildren().clear();
@@ -277,11 +290,13 @@ public class GuiController implements Initializable, GameMovementInterface {
         }
     }
 
+    /** Set up helper classes */
     private void setupHelpers() {
         rowsEffectsHandler = new RowsClearedEffectsHandler(audioManager, gameState, clearedRows);
         gameOverHandler = new GameOverHandler(audioManager, gameLoop, gameState, gameOverPanel);
     }
 
+    /** Set up input handler for key events */
     private void setupInputHandler() {
         inputHandler = new KeyInputHandler(this);
 
@@ -294,6 +309,7 @@ public class GuiController implements Initializable, GameMovementInterface {
         });
     }
 
+    /** Set up reflection effect for UI */
     private void setupReflection() {
         Reflection reflection = new Reflection();
         reflection.setFraction(0.8);
@@ -301,6 +317,7 @@ public class GuiController implements Initializable, GameMovementInterface {
         reflection.setTopOffset(-12);
     }
 
+    /** Create and configure the game panel */
     private void createGamePanel() {
         gamePanel.setFocusTraversable(true);
         gamePanel.requestFocus();
@@ -309,6 +326,7 @@ public class GuiController implements Initializable, GameMovementInterface {
         gamePanel.setGridLinesVisible(false); // Set to true for debugging
     }
 
+    /** Load custom font for the game */
     private void loadFont() {
         try {
             Font.loadFont(getClass().getClassLoader().getResource("digital.ttf").toExternalForm(), 38);
@@ -320,6 +338,7 @@ public class GuiController implements Initializable, GameMovementInterface {
     public boolean isPaused() { return gameState.isPaused(); }
     public boolean isGameOver() { return gameState.isGameOver(); }
 
+    /** Initialize the game */
     public void initGame() {
         gameController = new GameController(this);
         audioManager.playBackgroundMusic();
@@ -331,6 +350,7 @@ public class GuiController implements Initializable, GameMovementInterface {
         System.out.println("Visible start row: " + GridRenderer.VISIBLE_START_ROW);
     }
 
+    /** Initialize the game view with the board matrix and current brick */
     public void initGameView(int[][] boardMatrix, ViewData brick) {
         System.out.println("\n=== initGameView ===");
         System.out.println("Board matrix: " + boardMatrix.length + "x" + boardMatrix[0].length);
@@ -340,14 +360,17 @@ public class GuiController implements Initializable, GameMovementInterface {
         gameLoop.start(() -> performMoveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD)));
     }
 
+    /** Create the game grid */
     public void updateNextBrick(ViewData nextBrick) {
         BrickRenderer.updatePreviewPanel(previewPanel, nextBrick);
     }
 
+    /** Refresh the brick display */
     public void refreshBrick(ViewData brick) {
         brickRenderer.refreshBrick(brick, brickRectangles, brickPanel, gamePanel, gameState.isPaused());
     }
 
+    /** Refresh the game background */
     public void refreshGameBackground(int[][] board) {
         brickRenderer.refreshGameBackground(board, displayMatrix);
     }
@@ -356,6 +379,7 @@ public class GuiController implements Initializable, GameMovementInterface {
         brickRenderer.updateHoldPanel(holdPanel, holdShape);
     }
 
+    /** Perform move down action */
     public void performMoveDown(MoveEvent event) {
         if (gameState.isPaused()) {
             gamePanel.requestFocus();
@@ -371,6 +395,7 @@ public class GuiController implements Initializable, GameMovementInterface {
         gamePanel.requestFocus();
     }
 
+    /** Bind score property to the score label */
     public void bindScore(IntegerProperty scoreProperty) {
         if (bindScore != null) {
             bindScore.textProperty().unbind();
@@ -378,6 +403,7 @@ public class GuiController implements Initializable, GameMovementInterface {
         }
     }
 
+    /** Pause the game */
     public void pauseGame(javafx.event.ActionEvent actionEvent) {
         if (!gameState.isPaused()) {
             gameLoop.pause();
@@ -394,38 +420,46 @@ public class GuiController implements Initializable, GameMovementInterface {
         gamePanel.requestFocus();
     }
 
+    /** Get the brick panel */
     public GridPane getbrickPanel() { return brickPanel; }
 
+    /** Set the input event listener */
     public void setEventListener(InputEventListener listener) {
         this.eventListener = listener;
     }
 
     @Override
+    /** Perform soft drop action */
     public void softDrop() {
         performMoveDown(new MoveEvent(EventType.DOWN, EventSource.USER));
     }
 
     @Override
+    /** Move the brick left */
     public void moveLeft() {
         refreshBrick(eventListener.onLeftEvent(new MoveEvent(EventType.LEFT, EventSource.USER)));
     }
 
     @Override
+    /** Move the brick right */
     public void moveRight() {
         refreshBrick(eventListener.onRightEvent(new MoveEvent(EventType.RIGHT, EventSource.USER)));
     }
 
     @Override
+    /** Rotate the brick */
     public void rotate() {
         refreshBrick(eventListener.onRotateEvent(new MoveEvent(EventType.ROTATE, EventSource.USER)));
     }
 
     @Override
+    /** Perform hard drop action */
     public void hold() {
         eventListener.onHoldEvent();
     }
 
     @Override
+    /** Start a new game */
     public void newGame() {
         restartGame();
     }

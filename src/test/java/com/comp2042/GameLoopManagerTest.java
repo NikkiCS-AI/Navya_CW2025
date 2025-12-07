@@ -3,37 +3,37 @@ package com.comp2042;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class InputEventListenerTest {
+class GameLoopManagerTest {
     @Test
-    void onDownEvent() {
+    void start() {
         assertTrue(true);
     }
     @Test
-    void onLeftEvent() {
+    void pause() {
         assertTrue(true);
     }
     @Test
-    void onRightEvent() {
+    void resume() {
         assertTrue(true);
     }
     @Test
-    void onRotateEvent() {
+    void stop() {
         assertTrue(true);
     }
     @Test
-    void testOnLeftEvent() {
+    void setSpeed() {
         assertTrue(true);
     }
     @Test
-    void testOnRightEvent() {
+    void getSpeed() {
         assertTrue(true);
     }
     @Test
-    void testOnRotateEvent() {
+    void getSpeedForDifficulty() {
         assertTrue(true);
     }
     @Test
-    void createNewGame() {
+    void isRunning() {
         assertTrue(true);
     }
 }

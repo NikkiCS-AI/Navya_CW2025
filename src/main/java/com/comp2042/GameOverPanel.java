@@ -5,11 +5,18 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * GameOverPanel represents the UI panel displayed when the game is over.
+ * It shows a "GAME OVER" message and the player's score.
+ */
+
 public class GameOverPanel extends BorderPane {
 
     private final Label gameOverLabel;
     private final Label scoreLabel;
 
+    /** Constructs a GameOverPanel with default labels.
+     */
     public GameOverPanel() {
         // Game Over label
         gameOverLabel = new Label("GAME OVER");
@@ -26,10 +33,18 @@ public class GameOverPanel extends BorderPane {
         setCenter(container);
     }
 
+    /** Sets the score to be displayed on the panel.
+     *
+     * @param score The score as a String.
+     */
     public void setScore(String score) {
         scoreLabel.setText("Score: " + score);
     }
 
+    /** Sets the score to be displayed on the panel.
+     *
+     * @param score The score as an integer.
+     */
     public void setScore(int score) {
         scoreLabel.setText("Score: " + score);
     }

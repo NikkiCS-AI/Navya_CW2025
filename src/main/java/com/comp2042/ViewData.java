@@ -3,6 +3,10 @@ package com.comp2042;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * ViewData class to encapsulate the data needed for rendering the game view.
+ */
+
 public final class ViewData {
 
     private final int[][] brickData;
@@ -10,7 +14,7 @@ public final class ViewData {
     private final int yPosition;
     private final int[][] nextBrickData;
 
-    // creates and initialises view data object with brick data, position and next brick data
+    /** creates and initialises view data object with brick data, position and next brick data */
     public ViewData(int[][] brickData, int xPosition, int yPosition, int[][] nextBrickData) {
         this.brickData = brickData;
         this.xPosition = xPosition;
@@ -18,22 +22,22 @@ public final class ViewData {
         this.nextBrickData = nextBrickData;
     }
 
-    // returns brick shape data
+    /** returns brick shape data */
     public int[][] getBrickData() {
         return MatrixOperations.copy(brickData);
     }
 
-    // returns x position of brick
+    /** returns x position of brick */
     public int getxPosition() {
         return xPosition;
     }
 
-    // returns y position of brick
+    /** returns y position of brick */
     public int getyPosition() {
         return yPosition;
     }
 
-    // returns next brick shape data
+    /** returns next brick shape data */
     public int[][] getNextBrickData() {
         return MatrixOperations.copy(nextBrickData);
     }

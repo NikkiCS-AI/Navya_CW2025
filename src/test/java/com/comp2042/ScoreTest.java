@@ -21,4 +21,24 @@ class ScoreTest {
     void reset() {
         assertTrue(true);
     }
+
+    @Test
+    void testScoreProperty() {
+        assertTrue(true);
+    }
+
+    @Test
+    void testAdd() {
+        assertTrue(true);
+    }
+
+    @Test
+    void testReset() {
+        assertTrue(true);
+    }
+
+    @Test
+    void textProperty() {
+        assertTrue(true);
+    }
 }

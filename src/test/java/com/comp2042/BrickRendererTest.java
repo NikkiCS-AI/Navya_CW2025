@@ -3,21 +3,21 @@ package com.comp2042;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class DownDataTest {
+class BrickRendererTest {
     @Test
-    void getClearRow() {
+    void refreshBrick() {
         assertTrue(true);
     }
     @Test
-    void getViewData() {
+    void refreshGameBackground() {
         assertTrue(true);
     }
     @Test
-    void testGetClearRow() {
+    void updatePreviewPanel() {
         assertTrue(true);
     }
     @Test
-    void testGetViewData() {
+    void updateHoldPanel() {
         assertTrue(true);
     }
 }

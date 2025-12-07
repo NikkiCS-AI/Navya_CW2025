@@ -32,12 +32,6 @@ class EventTypeTest {
         assertEquals(EventType.DOWN.hashCode(), EventType.DOWN.hashCode());
     }
 
-    //@Test
-    //void testClone() {
-    //assertThrows(CloneNotSupportedException.class, () -> {
-    // EventType.DOWN.clone();
-    // });
-    // }
 
     @Test
     void compareTo() {

@@ -3,10 +3,13 @@ package com.comp2042;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
-import static java.awt.Color.getColor;
+/**
+ *
+ * <p>This class provides a method to get the color associated with different Tetris bricks.</p>
+ */
 
 public class BrickColour {
-        // assigns colors to the different tetris bricks
+        /** assigns colors to the different tetris bricks */
         public static Paint getColour(int i) {
             switch (i) {
                 case 0:

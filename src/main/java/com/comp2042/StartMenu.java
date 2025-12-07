@@ -13,12 +13,24 @@ import javafx.scene.layout.VBox;
 
 import java.util.Optional;
 
+/**
+ * StartMenu class represents the start menu of the Tetris game.
+ * It allows the user to select the game difficulty, start a new game, or exit the application.
+ */
+
 
 public class StartMenu extends StackPane {
 
+    /** Enum representing the difficulty levels.
+     */
     public enum Difficulty {
+        /** Easy difficulty level */
         EASY,
+
+        /** Medium difficulty level */
         MEDIUM,
+
+        /** Hard difficulty level */
         HARD
     }
 
@@ -33,6 +45,8 @@ public class StartMenu extends StackPane {
     private Button hardButton;
 
 
+    /** Constructor to initialize the StartMenu UI components and layout.
+     */
     public StartMenu() {
         this.getStyleClass().add("startMenuBackground");
 
@@ -85,6 +99,10 @@ public class StartMenu extends StackPane {
         this.getChildren().add(menuBox);
     }
 
+    /** Method to handle difficulty selection and update button styles accordingly.
+     *
+     * @param difficulty The selected difficulty level.
+     */
     private void selectDifficulty(Difficulty difficulty) {
         this.difficultyselected = difficulty;
         easyButton.getStyleClass().remove("selected");
@@ -105,19 +123,34 @@ public class StartMenu extends StackPane {
         System.out.println("Selected Difficulty: " + difficultyselected);
     }
 
+    /** Method to get the currently selected difficulty level.
+     *
+     * @return The selected Difficulty enum value.
+     */
     public Difficulty getSelectedDifficulty() {
         return difficultyselected;
     }
 
+    /** Method to set the action to be performed when the "Start Game" button is clicked.
+     *
+     * @param onStartGame A Runnable representing the action to start the game.
+     */
     public void setOnStartGame(Runnable onStartGame) {
         this.onStartGame = onStartGame;
     }
 
+    /** Method to set the action to be performed when the "Exit Game" button is clicked.
+     *
+     * @param onQuitGame A Runnable representing the action to quit the game.
+     */
     public void setOnQuitGame(Runnable onQuitGame) {
         this.onQuitGame = onQuitGame;
     }
 
 
+    /** Method to handle the exit game confirmation dialog.
+     * If the user confirms, the onQuitGame action is executed.
+     */
     private void handleExitGame() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Quit Game");
