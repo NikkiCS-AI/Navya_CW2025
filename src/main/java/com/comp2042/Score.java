@@ -15,6 +15,7 @@ import java.rmi.Naming;
 public final class Score {
 
 
+    /** internal score property */
     private final IntegerProperty score = new SimpleIntegerProperty(0);
 
     /** JavaFX property to allow binding to UI elements */

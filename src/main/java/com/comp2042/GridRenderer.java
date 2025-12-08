@@ -14,9 +14,9 @@ import javafx.scene.layout.GridPane;
  * Adjusted to show only 20 visible rows starting from row index 4.
  */
 public class GridRenderer {
-    public static final int BRICK_SIZE = 20;
-    public static final int VISIBLE_ROWS = 20; // Changed from 22 to 20
-    public static final int VISIBLE_START_ROW = 4; // Changed from 2 to 4
+    public static final int BRICK_SIZE = 20; /** Size of each brick in pixels */
+    public static final int VISIBLE_ROWS = 20; /** Number of visible rows on the game panel */
+    public static final int VISIBLE_START_ROW = 4; /** Starting row index for visible grid */
 
     /**
      * Creates the visible grid on the game panel.

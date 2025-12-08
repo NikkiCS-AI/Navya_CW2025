@@ -14,15 +14,18 @@ import java.net.URL;
  * the primary stage for the game.
  */
 
+/**
+ * Main class to launch the TetrisJFX application.
+ */
 public class Main extends Application {
 
-    @Override
     /** The start method is the main entry point for all JavaFX applications.
      * It sets up the primary stage with the game layout defined in FXML.
      *
      * @param primaryStage the primary stage for this application
      * @throws Exception if loading the FXML fails
      */
+    @Override
     public void start(Stage primaryStage) throws Exception {
 
         URL location = getClass().getClassLoader().getResource("gameLayout.fxml");

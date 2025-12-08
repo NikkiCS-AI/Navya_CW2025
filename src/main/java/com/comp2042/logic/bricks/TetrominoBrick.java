@@ -21,7 +21,7 @@ public class TetrominoBrick implements Brick {
     /**
      * Returns the shape matrix of the Tetromino brick.
      *
-     * @return A list of 2D integer arrays representing the shape matrix.
+     * @return A list of 2D integer arrays representing the shape rotations.
      */
     public List<int[][]> getShapeMatrix() {
         return type.getRotations();

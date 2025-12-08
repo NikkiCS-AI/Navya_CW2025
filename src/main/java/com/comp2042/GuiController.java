@@ -84,8 +84,8 @@ public class GuiController implements Initializable, GameMovementInterface {
 
     private StartMenu.Difficulty currentDifficulty;
 
-    @Override
     /** Initialize the GUI controller */
+    @Override
     public void initialize(URL location, ResourceBundle resources) {
         startMenuScreen.setOnStartGame(this::startGame);
         startMenuScreen.setOnQuitGame(this::quitGame);

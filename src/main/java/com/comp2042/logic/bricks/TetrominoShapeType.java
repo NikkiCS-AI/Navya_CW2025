@@ -9,6 +9,7 @@ import java.util.List;
 
 public enum TetrominoShapeType {
 
+    /** I shape tetromino with its rotation states. */
     I(List.of(
             (new int[][]{
                     {0, 0, 0, 0},
@@ -24,6 +25,7 @@ public enum TetrominoShapeType {
             })
     )),
 
+    /** J shape tetromino with its rotation states. */
     J(List.of(
             (new int[][]{
                     {0, 0, 0, 0},
@@ -51,6 +53,7 @@ public enum TetrominoShapeType {
             })
     )),
 
+    /** L shape tetromino with its rotation states. */
     L(List.of(
             (new int[][]{
                     {0, 0, 0, 0},
@@ -78,6 +81,7 @@ public enum TetrominoShapeType {
             })
     )),
 
+    /** O shape tetromino with its rotation states. */
     O(List.of(
             new int[][]{
                     {0, 0, 0, 0},
@@ -94,6 +98,7 @@ public enum TetrominoShapeType {
     )),
 
 
+    /** S shape tetromino with its rotation states. */
     S(List.of(
             (new int[][]{
                     {0, 0, 0, 0},
@@ -109,6 +114,7 @@ public enum TetrominoShapeType {
             })
     )),
 
+    /** T shape tetromino with its rotation states. */
     T(List.of(
             (new int[][]{
                     {0, 0, 0, 0},
@@ -136,6 +142,7 @@ public enum TetrominoShapeType {
             })
     )),
 
+    /** Z shape tetromino with its rotation states. */
     Z(List.of(
             (new int[][]{
                     {0, 0, 0, 0},
@@ -151,6 +158,7 @@ public enum TetrominoShapeType {
             })
     ));
 
+    /** List of rotation states for the tetromino shape. */
     private final List<int[][]> rotations;
 
     /**
