@@ -1,12 +1,21 @@
 # Documentation
 ## • GitHub: https://github.com/NikkiCS-AI/Navya_CW2025
 
+## Project Overview
+This project involves maintaining and extending an existing Tetris-style game.
+The maintenance phase focused on understanding and repairing the original codebase, improving stability, and reorganizing core components.
+The extension phase introduced new gameplay mechanics, improved UI elements, audio systems, and a cleaner architectural structure that supports long-term scalability. 
+
 ## • Compilation Instructions:  
 1. Requirements: 
     - Java Development Kit (JDK) 17 or higher (preferably JDK 23)
+    - JavaFX SDK (controls + FXML)
     - An IDE such as IntelliJ IDEA, Eclipse, or NetBeans (IntelliJ IDEA recommended)
+    - Maven (optional but recommended)
+  <br></br> 
 2. To Compile and Run the Project:
     - Clone the repository from GitHub using the command git clone.
+    - Open the project in your IDE
     - Configure Javafx in your IDE in project structure, libraries section.
     - Run the main class located in the src folder.
     - Use maven  javafx plugin or the command mvn javafx:run to run the project.
@@ -35,10 +44,10 @@
 
 7. GameLoopManager
 - Created a GameLoopManager class to handle the main game loop, improving code organization and readability
-  
-## • Implemented but Not Working Properly: 
+   
   
 ## • Features Not Implemented:
+A ghost brick feature that shows where the tetromino will land when dropped was not implemented due to time constraints. This feature would require additional rendering logic and collision detection enhancements.
   
 ## • New Java Classes: 
 1. AudioManager.java - Manages background music and sound effects.
